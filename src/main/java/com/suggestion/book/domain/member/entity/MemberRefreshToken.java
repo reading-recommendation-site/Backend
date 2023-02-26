@@ -12,16 +12,25 @@ import javax.persistence.*;
 @Entity
 @Table(name = "member_refresh_token")
 public class MemberRefreshToken {
+
     @JsonIgnore
     @Id
-    @Column(name = "refresh_token_seq")
+    @Column(name = "refresh_token_no")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long refreshTokenSeq;
+    private Long no;
 
-    @Column(name = "user_id")
-    private String userId;
+    @Column(name = "member_id")
+    private String memberId;
 
     @Column(name = "refresh_token")
     private String refreshToken;
 
+    public void setRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
+    }
+
+    public MemberRefreshToken(String userId, String refreshToken) {
+        this.memberId = userId;
+        this.refreshToken = refreshToken;
+    }
 }
