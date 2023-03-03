@@ -59,6 +59,7 @@ public class SecurityConfig{
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                 .antMatchers("/api/**").hasAnyAuthority(RoleType.USER.getCode())
                 .antMatchers("/api/**/admin/**").hasAnyAuthority(RoleType.ADMIN.getCode())
+                .antMatchers("/search/*").permitAll()
                 .anyRequest().authenticated() //모든 사용자는 인증이 되어야 한다.
                 .and()
                 .oauth2Login()
