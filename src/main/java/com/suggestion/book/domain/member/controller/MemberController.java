@@ -15,7 +15,7 @@ public class MemberController {
     private final MemberService memberService;
 
     @GetMapping(path = "/member")
-    public ApiResponse getUser() {
+    public ApiResponse<?> getUser() {
         User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Member member = memberService.getMember(principal.getUsername());
 
