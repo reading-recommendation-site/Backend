@@ -13,12 +13,20 @@ public class WebClientConfig {
     private final ApiProperties apiProperties;
 
     @Bean
-    public WebClient WebClientApi(WebClient.Builder webClientBuilder) {
+    public WebClient naverWebClientApi(WebClient.Builder webClientBuilder) {
         return webClientBuilder
                 .clone()
-                .baseUrl(apiProperties.getNaver().getUrl())
+                .baseUrl(apiProperties.getNaver().getUri())
                 .defaultHeader("X-Naver-Client-Id", apiProperties.getNaver().getNaverClientId())
                 .defaultHeader("X-Naver-Client-Secret", apiProperties.getNaver().getNaverClientSecret())
+                .build();
+    }
+
+    @Bean
+    public WebClient aladinWebClientApi(WebClient.Builder webClientBuilder) {
+        return webClientBuilder
+                .clone()
+                .baseUrl(apiProperties.getAladin().getUri())
                 .build();
     }
 }
