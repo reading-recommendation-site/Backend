@@ -11,12 +11,20 @@ import org.springframework.boot.context.properties.ConstructorBinding;
 @ConfigurationProperties(prefix = "api")
 public class ApiProperties {
     private final Naver naver;
+    private final Aladin aladin;
 
     @Getter
     @RequiredArgsConstructor
     public static class Naver {
-        private final String url;
+        private final String uri;
         private final String naverClientId;
         private final String naverClientSecret;
+    }
+
+    @Getter
+    @RequiredArgsConstructor
+    public static class Aladin {
+        private final String uri;
+        private final String ttbKey;
     }
 }
