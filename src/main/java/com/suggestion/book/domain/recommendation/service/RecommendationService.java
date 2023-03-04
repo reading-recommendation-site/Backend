@@ -10,6 +10,7 @@ import reactor.core.publisher.Mono;
 @Service
 @RequiredArgsConstructor
 public class RecommendationService {
+
     private final WebClient aladinWebClientApi;
     private final ApiProperties apiProperties;
     private static final String URI = "/ItemList.aspx";
@@ -22,7 +23,25 @@ public class RecommendationService {
                         .queryParam("ttbkey", apiProperties.getAladin().getTtbKey())
                         .queryParam("QueryType", "Bestseller")
                         .queryParam("SearchTarget","Book")
-                        .queryParam("Version","20131101")
+                        .queryParam("Version",20131101)
+                        .queryParam("Cover","Big")
+                        .queryParam("output","js")
+                        .build())
+                .retrieve()
+                .bodyToMono(BestSellerListResponseDto.class);
+    }
+
+    public Mono<BestSellerListResponseDto> getByGenre(int category) {
+        return aladinWebClientApi
+                .get()
+                .uri(uriBuilder -> uriBuilder
+                        .path(URI)
+                        .queryParam("ttbkey", apiProperties.getAladin().getTtbKey())
+                        .queryParam("QueryType", "Bestseller")
+                        .queryParam("SearchTarget","Book")
+                        .queryParam("Version",20131101)
+                        .queryParam("CategoryId",category)
+                        .queryParam("Cover","Big")
                         .queryParam("output","js")
                         .build())
                 .retrieve()
