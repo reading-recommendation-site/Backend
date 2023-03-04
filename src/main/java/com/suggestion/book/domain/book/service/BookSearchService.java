@@ -9,12 +9,13 @@ import reactor.core.publisher.Mono;
 @Service
 @RequiredArgsConstructor
 public class BookSearchService {
-    private final WebClient webClientApi;
+
+    private final WebClient naverWebClientApi;
 
     public static final String URI = "/search/book_adv.json";
 
     public Mono<BookListResponseDto> searchByBookTitle(String title, int start) {
-        return webClientApi
+        return naverWebClientApi
                 .get()
                 .uri(uriBuilder -> uriBuilder
                         .path(URI)
