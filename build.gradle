@@ -34,6 +34,7 @@ dependencies {
 	annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 	runtimeOnly "io.netty:netty-resolver-dns-native-macos:4.1.76.Final:osx-aarch_64"// 배포할때는 필요 없음
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
 }
 
 tasks.named('test') {
