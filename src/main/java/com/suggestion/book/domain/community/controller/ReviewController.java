@@ -10,13 +10,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RestController
 @RequiredArgsConstructor
 public class ReviewController {
     private final ReviewService reviewService;
 
     @PostMapping(path = "/book/review")
-    public ResponseEntity<String> postReview(@RequestBody ReviewRequestDto reviewRequestDto,
+    public ResponseEntity<String> postReview(@Valid @RequestBody ReviewRequestDto reviewRequestDto,
                                              @AuthenticationPrincipal User principal) {
         reviewService.createReview(reviewRequestDto, principal.getUsername());
         return ResponseEntity.ok("리뷰 작성 완료");
