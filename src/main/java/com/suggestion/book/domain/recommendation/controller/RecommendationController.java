@@ -14,7 +14,7 @@ public class RecommendationController {
 
     private final RecommendationService recommendationService;
 
-    @GetMapping(path = "/recommendation/bestSeller")
+    @GetMapping(path = "/recommendation/bestseller")
     public Mono<BestSellerListResponseDto> getBestSellerList() {
         return recommendationService.getBestSeller();
     }
