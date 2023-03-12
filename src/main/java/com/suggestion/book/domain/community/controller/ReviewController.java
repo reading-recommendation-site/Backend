@@ -32,7 +32,7 @@ public class ReviewController {
     }
 
     @DeleteMapping(path = "/book/review/{id}")
-    public ResponseEntity<String> updateReview(@PathVariable("id") Long reviewId,
+    public ResponseEntity<String> deleteReview(@PathVariable("id") Long reviewId,
                                                @AuthenticationPrincipal User principal) {
         reviewService.deleteReview(reviewId, principal.getUsername());
         return ResponseEntity.ok("리뷰 삭제 완료");
