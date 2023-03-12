@@ -1,5 +1,6 @@
 package com.suggestion.book.global.error;
 
+import com.suggestion.book.domain.community.exception.CommentNotFoundException;
 import com.suggestion.book.domain.community.exception.InvalidISBNException;
 import com.suggestion.book.domain.community.exception.MemberIdMismatchException;
 import com.suggestion.book.domain.community.exception.ReviewNotFoundException;
@@ -19,7 +20,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     protected ResponseEntity<?> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
-        log.warn("handleMethodArgumentNotValidException : "+ e.getBindingResult());
+        log.warn("MethodArgumentNotValidException : "+ e.getBindingResult());
         String errorLog = e.getBindingResult().getAllErrors().get(0).getDefaultMessage();
         return new ResponseEntity<>(errorLog, HttpStatus.BAD_REQUEST);
     }
@@ -29,7 +30,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(InvalidISBNException.class)
     protected ResponseEntity<?> handleInvalidISBNException(InvalidISBNException e) {
-        log.warn("handleInvalidISBNException : "+ e.getMessage());
+        log.warn("InvalidISBNException : "+ e.getMessage());
         return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
@@ -38,7 +39,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(ReviewNotFoundException.class)
     protected ResponseEntity<?> handleReviewNotFoundException(ReviewNotFoundException e) {
-        log.warn("handleReviewNotFoundException : "+ e.getMessage());
+        log.warn("ReviewNotFoundException : "+ e.getMessage());
         return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
@@ -47,7 +48,16 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(MemberIdMismatchException.class)
     protected ResponseEntity<?> handleMemberIdMismatchException(MemberIdMismatchException e) {
-        log.warn("handleMemberIdMismatchException : "+ e.getMessage());
+        log.warn("MemberIdMismatchException : "+ e.getMessage());
         return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    /**
+     * db에 찾고자 하는 댓글이 존재 하지 않는 경우 발생 한다.
+     */
+    @ExceptionHandler(CommentNotFoundException.class)
+    protected ResponseEntity<?> handleCommentNotFoundException(CommentNotFoundException e) {
+        log.warn("CommentNotFoundException : "+e.getMessage());
+        return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
     }
 }
