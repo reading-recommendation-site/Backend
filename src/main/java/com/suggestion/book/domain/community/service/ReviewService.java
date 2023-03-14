@@ -12,6 +12,8 @@ import com.suggestion.book.domain.community.repository.ReviewRepository;
 import com.suggestion.book.domain.member.entity.Member;
 import com.suggestion.book.domain.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -39,6 +41,10 @@ public class ReviewService {
         }
         Member member = memberRepository.findByMemberId(memberId);
         reviewRepository.save(reviewRequestDto.toEntity(member));
+    }
+
+    public Page<Review> getReviewList(Pageable pageable) {
+        return reviewRepository.findAll(pageable);
     }
 
     @Transactional
