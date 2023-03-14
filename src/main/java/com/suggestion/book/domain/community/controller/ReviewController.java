@@ -2,8 +2,12 @@ package com.suggestion.book.domain.community.controller;
 
 import com.suggestion.book.domain.community.dto.ContentsRequestDto;
 import com.suggestion.book.domain.community.dto.ReviewRequestDto;
+import com.suggestion.book.domain.community.dto.ReviewResponseDto;
 import com.suggestion.book.domain.community.service.ReviewService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
@@ -21,6 +25,13 @@ public class ReviewController {
                                              @AuthenticationPrincipal User principal) {
         reviewService.createReview(reviewRequestDto, principal.getUsername());
         return ResponseEntity.ok("리뷰 작성 완료");
+    }
+
+    @GetMapping(path = "/reviews")
+    public Page<ReviewResponseDto> getReviewList(@RequestParam(defaultValue = "0")  final int pageNumber,
+                                                 @RequestParam(defaultValue = "5")  final int size) {
+        return reviewService.getReviewList(
+                PageRequest.of(pageNumber, size, Sort.by("createdAt").descending())).map(ReviewResponseDto::from);
     }
 
     @PutMapping(path = "/book/review/{id}")
