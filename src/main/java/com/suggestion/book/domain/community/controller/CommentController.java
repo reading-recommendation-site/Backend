@@ -1,8 +1,13 @@
 package com.suggestion.book.domain.community.controller;
 
+import com.suggestion.book.domain.community.dto.CommentResponseDto;
 import com.suggestion.book.domain.community.dto.ContentsRequestDto;
 import com.suggestion.book.domain.community.service.CommentService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
@@ -21,6 +26,12 @@ public class CommentController {
                                               @AuthenticationPrincipal User principal) {
         commentService.createComment(reviewId, contentsRequestDto, principal.getUsername());
         return ResponseEntity.ok("댓글 작성 성공");
+    }
+
+    @GetMapping(path = "/book/review/{id}/comment")
+    public Page<CommentResponseDto> getCommentListByReview(@PathVariable(name = "id") Long reviewId,
+                                                           @PageableDefault(size=5, sort="createdAt", direction = Sort.Direction.DESC) Pageable pageable){
+        return commentService.getCommentListByReview(reviewId, pageable);
     }
 
     @PutMapping(path = "/book/review/comment/{id}")
