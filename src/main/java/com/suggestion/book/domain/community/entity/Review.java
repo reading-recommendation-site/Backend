@@ -21,7 +21,7 @@ public class Review extends TimestampEntity {
     @Column(name = "review_no")
     private Long no;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(name = "member_no")
     private Member member;
 
