@@ -36,15 +36,22 @@ public class ReviewService {
 
     @Transactional
     public void createReview(ReviewRequestDto reviewRequestDto, String memberId) {
-        if(!validateIsbn(reviewRequestDto.isbn)){
+        if(isNotValidIsbn(reviewRequestDto.isbn)){
             throw new InvalidISBNException("isbn 이 존재 하지 않습니다.");
         }
         Member member = memberRepository.findByMemberId(memberId);
         reviewRepository.save(reviewRequestDto.toEntity(member));
     }
 
-    public Page<Review> getReviewList(Pageable pageable) {
+    public Page<Review> getAllReviewList(Pageable pageable) {
         return reviewRepository.findAll(pageable);
+    }
+
+    public Page<Review> getReviewListByIsbn(Pageable pageable,String isbn) {
+        if(isNotValidIsbn(isbn)){
+            throw new InvalidISBNException("isbn 이 존재 하지 않습니다.");
+        }
+        return reviewRepository.findAllByIsbn(pageable,isbn);
     }
 
     @Transactional
@@ -68,7 +75,7 @@ public class ReviewService {
         reviewRepository.delete(review);
     }
 
-    private boolean validateIsbn(String isbn){
+    private boolean isNotValidIsbn(String isbn){
         Mono<BookISBNResponseDto> bookISBNResponseDtoMono = naverWebClientApi
                 .get()
                 .uri(uriBuilder -> uriBuilder
@@ -78,6 +85,6 @@ public class ReviewService {
                 .retrieve()
                 .bodyToMono(BookISBNResponseDto.class);
         BookISBNResponseDto bookISBNResponseDto = bookISBNResponseDtoMono.block();
-        return bookISBNResponseDto != null && bookISBNResponseDto.getTotal() == 1;
+        return bookISBNResponseDto == null || bookISBNResponseDto.getTotal() != 1;
     }
 }

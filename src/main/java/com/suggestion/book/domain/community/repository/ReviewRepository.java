@@ -10,4 +10,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ReviewRepository extends JpaRepository<Review, Long> {
     Page<Review> findAll (Pageable pageable) ;
+    Page<Review> findAllByIsbn(Pageable pageable,String isbn);
 }

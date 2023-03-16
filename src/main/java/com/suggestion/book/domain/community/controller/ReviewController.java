@@ -6,8 +6,9 @@ import com.suggestion.book.domain.community.dto.ReviewResponseDto;
 import com.suggestion.book.domain.community.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
@@ -28,10 +29,15 @@ public class ReviewController {
     }
 
     @GetMapping(path = "/reviews")
-    public Page<ReviewResponseDto> getReviewList(@RequestParam(defaultValue = "0")  final int pageNumber,
-                                                 @RequestParam(defaultValue = "5")  final int size) {
-        return reviewService.getReviewList(
-                PageRequest.of(pageNumber, size, Sort.by("createdAt").descending())).map(ReviewResponseDto::from);
+    public Page<ReviewResponseDto> getAllReviewList(
+            @PageableDefault(size=20, sort="createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
+        return reviewService.getAllReviewList(pageable).map(ReviewResponseDto::from);
+    }
+
+    @GetMapping(path = "/book/{isbn}/review")
+    public Page<ReviewResponseDto> getAllReviewList(@PathVariable("isbn") String isbn,
+            @PageableDefault(size=5, sort="createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
+        return reviewService.getReviewListByIsbn(pageable,isbn).map(ReviewResponseDto::from);
     }
 
     @PutMapping(path = "/book/review/{id}")
