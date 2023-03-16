@@ -3,6 +3,7 @@ package com.suggestion.book.domain.community.service;
 import com.suggestion.book.domain.community.dto.BookISBNResponseDto;
 import com.suggestion.book.domain.community.dto.ContentsRequestDto;
 import com.suggestion.book.domain.community.dto.ReviewRequestDto;
+import com.suggestion.book.domain.community.dto.ReviewResponseDto;
 import com.suggestion.book.domain.community.entity.Review;
 import com.suggestion.book.domain.community.exception.InvalidISBNException;
 import com.suggestion.book.domain.community.exception.MemberIdMismatchException;
@@ -43,15 +44,15 @@ public class ReviewService {
         reviewRepository.save(reviewRequestDto.toEntity(member));
     }
 
-    public Page<Review> getAllReviewList(Pageable pageable) {
-        return reviewRepository.findAll(pageable);
+    public Page<ReviewResponseDto> getAllReviewList(Pageable pageable) {
+        return reviewRepository.findAll(pageable).map(ReviewResponseDto::from);
     }
 
-    public Page<Review> getReviewListByIsbn(Pageable pageable,String isbn) {
+    public Page<ReviewResponseDto> getReviewListByIsbn(Pageable pageable,String isbn) {
         if(isNotValidIsbn(isbn)){
             throw new InvalidISBNException("isbn 이 존재 하지 않습니다.");
         }
-        return reviewRepository.findAllByIsbn(pageable,isbn);
+        return reviewRepository.findAllByIsbn(pageable,isbn).map(ReviewResponseDto::from);
     }
 
     @Transactional

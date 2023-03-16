@@ -31,13 +31,13 @@ public class ReviewController {
     @GetMapping(path = "/reviews")
     public Page<ReviewResponseDto> getAllReviewList(
             @PageableDefault(size=20, sort="createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
-        return reviewService.getAllReviewList(pageable).map(ReviewResponseDto::from);
+        return reviewService.getAllReviewList(pageable);
     }
 
     @GetMapping(path = "/book/{isbn}/review")
     public Page<ReviewResponseDto> getAllReviewList(@PathVariable("isbn") String isbn,
             @PageableDefault(size=5, sort="createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
-        return reviewService.getReviewListByIsbn(pageable,isbn).map(ReviewResponseDto::from);
+        return reviewService.getReviewListByIsbn(pageable,isbn);
     }
 
     @PutMapping(path = "/book/review/{id}")
