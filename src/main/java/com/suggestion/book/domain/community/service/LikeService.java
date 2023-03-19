@@ -1,5 +1,6 @@
 package com.suggestion.book.domain.community.service;
 
+import com.suggestion.book.domain.community.dto.LikeResponseDto;
 import com.suggestion.book.domain.community.entity.Like;
 import com.suggestion.book.domain.community.entity.Review;
 import com.suggestion.book.domain.community.exception.LikeNotFoundException;
@@ -13,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -23,12 +25,16 @@ public class LikeService {
     private final ReviewRepository reviewRepository;
     private final MemberRepository memberRepository;
 
-    public Long getLike(Long reviewId, String memberId) {
+    public LikeResponseDto getLike(Long reviewId, String memberId) {
         Optional<Review> reviewOpt = reviewRepository.findById(reviewId);
         Review review = reviewOpt.orElseThrow(() -> new ReviewNotFoundException("리뷰가 존재 하지 않습니다."));
         Member member = memberRepository.findByMemberId(memberId);
         Optional<Like> likeOpt = likeRepository.findByMemberAndReview(member,review);
-        return likeOpt.map(Like::getNo).orElse(0L);
+        List<Like> likeList = likeRepository.findByReview(review);
+        return LikeResponseDto.builder()
+                .likeNo(likeOpt.map(Like::getNo).orElse(0L))
+                .count(likeList.size())
+                .build();
     }
 
     @Transactional
@@ -39,7 +45,8 @@ public class LikeService {
         if(likeRepository.findByMemberAndReview(member,review).isEmpty()){
             likeRepository.save(Like.builder()
                             .review(review)
-                            .member(member).build());
+                            .member(member)
+                            .build());
         }
     }
 
