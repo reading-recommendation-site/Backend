@@ -9,6 +9,7 @@ import com.suggestion.book.domain.community.exception.InvalidISBNException;
 import com.suggestion.book.domain.community.exception.MemberIdMismatchException;
 import com.suggestion.book.domain.community.exception.ReviewNotFoundException;
 import com.suggestion.book.domain.community.repository.CommentRepository;
+import com.suggestion.book.domain.community.repository.LikeRepository;
 import com.suggestion.book.domain.community.repository.ReviewRepository;
 import com.suggestion.book.domain.member.entity.Member;
 import com.suggestion.book.domain.member.repository.MemberRepository;
@@ -30,6 +31,7 @@ public class ReviewService {
     private final ReviewRepository reviewRepository;
     private final MemberRepository memberRepository;
     private final CommentRepository commentRepository;
+    private final LikeRepository likeRepository;
     private final WebClient naverWebClientApi;
 
 
@@ -73,6 +75,7 @@ public class ReviewService {
             throw new MemberIdMismatchException("멤버가 불일치 합니다.");
         }
         commentRepository.deleteByReview(review.getNo());
+        likeRepository.deleteByReview(review.getNo());
         reviewRepository.delete(review);
     }
 

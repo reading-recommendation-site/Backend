@@ -1,9 +1,6 @@
 package com.suggestion.book.global.error;
 
-import com.suggestion.book.domain.community.exception.CommentNotFoundException;
-import com.suggestion.book.domain.community.exception.InvalidISBNException;
-import com.suggestion.book.domain.community.exception.MemberIdMismatchException;
-import com.suggestion.book.domain.community.exception.ReviewNotFoundException;
+import com.suggestion.book.domain.community.exception.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -58,6 +55,15 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(CommentNotFoundException.class)
     protected ResponseEntity<?> handleCommentNotFoundException(CommentNotFoundException e) {
         log.warn("CommentNotFoundException : "+e.getMessage());
+        return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+    }
+
+    /**
+     * 좋아요 취소시 이미 좋아요 가 취소 되어 있는 경우
+     */
+    @ExceptionHandler(LikeNotFoundException.class)
+    protected ResponseEntity<?> handleLikeNotFoundException(LikeNotFoundException e) {
+        log.warn("LikeNotFoundException : "+e.getMessage());
         return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
     }
 }
