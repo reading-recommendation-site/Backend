@@ -12,6 +12,7 @@ import org.springframework.boot.context.properties.ConstructorBinding;
 public class ApiProperties {
     private final Naver naver;
     private final Aladin aladin;
+    private final Naru naru;
 
     @Getter
     @RequiredArgsConstructor
@@ -26,5 +27,12 @@ public class ApiProperties {
     public static class Aladin {
         private final String uri;
         private final String ttbKey;
+    }
+
+    @Getter
+    @RequiredArgsConstructor
+    public static class Naru {
+        private final String uri;
+        private final String authKey;
     }
 }
