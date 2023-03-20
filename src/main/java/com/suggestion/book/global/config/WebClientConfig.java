@@ -12,6 +12,10 @@ public class WebClientConfig {
 
     private final ApiProperties apiProperties;
 
+
+    /**
+     * 네이버 WebClient
+     */
     @Bean
     public WebClient naverWebClientApi(WebClient.Builder webClientBuilder) {
         return webClientBuilder
@@ -22,11 +26,26 @@ public class WebClientConfig {
                 .build();
     }
 
+
+    /**
+     * 알라딘 WebClient
+     */
     @Bean
     public WebClient aladinWebClientApi(WebClient.Builder webClientBuilder) {
         return webClientBuilder
                 .clone()
                 .baseUrl(apiProperties.getAladin().getUri())
+                .build();
+    }
+
+    /**
+     * 도서관 정보 나루 WebClient
+     */
+    @Bean
+    public WebClient data4libraryWebClientApi(WebClient.Builder webClientBuilder) {
+        return webClientBuilder
+                .clone()
+                .baseUrl(apiProperties.getNaru().getUri())
                 .build();
     }
 }
