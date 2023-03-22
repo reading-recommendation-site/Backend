@@ -17,28 +17,39 @@ public class KakaoOAuth2UserInfo extends OAuth2UserInfo {
 
     @Override
     public String getName() {
-        Map<String, Object> properties = (Map<String, Object>) attributes.get("properties");
-
-        if (properties == null) {
-            return null;
+        if(attributes.containsKey("kakao_account")) {
+            Map<String, Object> kakao_account = (Map<String, Object>) attributes.get("kakao_account");
+            if(kakao_account.containsKey("profile")) {
+                Map<String, Object>  profile = (Map<String, Object>) kakao_account.get("profile");
+                if(profile.containsKey("nickname")) {
+                    return (String) profile.get("nickname");
+                }
+            }
         }
-
-        return (String) properties.get("nickname");
+        return null;
     }
 
     @Override
     public String getEmail() {
-        return (String) attributes.get("account_email");
+        Map<String,Object> kakaoAccount = (Map<String,Object>) attributes.get("kakao_account");
+
+        if (kakaoAccount == null) {
+            return null;
+        }
+        return (String) kakaoAccount.get("email");
     }
 
     @Override
     public String getImageUrl() {
-        Map<String, Object> properties = (Map<String, Object>) attributes.get("properties");
-
-        if (properties == null) {
-            return null;
+        if(attributes.containsKey("kakao_account")) {
+            Map<String, Object> kakao_account = (Map<String, Object>) attributes.get("kakao_account");
+            if(kakao_account.containsKey("profile")) {
+                Map<String, Object>  profile = (Map<String, Object>) kakao_account.get("profile");
+                if(profile.containsKey("profile_image_url")) {
+                    return (String) profile.get("profile_image_url");
+                }
+            }
         }
-
-        return (String) properties.get("thumbnail_image");
+        return null;
     }
 }
