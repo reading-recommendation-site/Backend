@@ -2,6 +2,7 @@ package com.suggestion.book.domain.recommendation.service;
 
 import com.suggestion.book.domain.recommendation.dto.BestSellerListResponseDto;
 import com.suggestion.book.domain.recommendation.dto.PopularBookConditionsRequestDto;
+import com.suggestion.book.domain.recommendation.dto.PopularBookListResponseDto;
 import com.suggestion.book.global.config.properties.ApiProperties;
 import com.suggestion.book.global.utils.MultiValueMapConverterUtil;
 import lombok.RequiredArgsConstructor;
@@ -53,9 +54,8 @@ public class RecommendationService {
                 .bodyToMono(BestSellerListResponseDto.class);
     }
 
-    public Mono<String> getPopularBook(PopularBookConditionsRequestDto conditionsDto) {
+    public Mono<PopularBookListResponseDto> getPopularBook(PopularBookConditionsRequestDto conditionsDto) {
         MultiValueMap<String, String> params = MultiValueMapConverterUtil.convert(conditionsDto);
-        System.out.println(params);
         return data4libraryWebClientApi
                 .get()
                 .uri(uriBuilder -> uriBuilder
@@ -65,6 +65,6 @@ public class RecommendationService {
                         .queryParam("format","json")
                         .build())
                 .retrieve()
-                .bodyToMono(String.class);
+                .bodyToMono(PopularBookListResponseDto.class);
     }
 }

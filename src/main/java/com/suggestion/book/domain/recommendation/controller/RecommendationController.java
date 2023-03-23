@@ -2,6 +2,7 @@ package com.suggestion.book.domain.recommendation.controller;
 
 import com.suggestion.book.domain.recommendation.dto.BestSellerListResponseDto;
 import com.suggestion.book.domain.recommendation.dto.PopularBookConditionsRequestDto;
+import com.suggestion.book.domain.recommendation.dto.PopularBookListResponseDto;
 import com.suggestion.book.domain.recommendation.service.RecommendationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,7 +27,7 @@ public class RecommendationController {
     }
 
     @GetMapping(path = "/recommendation/popularity")
-    public Mono<String> getPopularBookList(PopularBookConditionsRequestDto dto) {
+    public Mono<PopularBookListResponseDto> getPopularBookList(PopularBookConditionsRequestDto dto) {
         return recommendationService.getPopularBook(dto);
     }
 }
