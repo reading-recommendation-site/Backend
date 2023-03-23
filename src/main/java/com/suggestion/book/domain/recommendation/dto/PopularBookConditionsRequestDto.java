@@ -9,8 +9,7 @@ public class PopularBookConditionsRequestDto {
     public String startDt;
     public String endDt;
     public Integer gender;
-    public Integer from_age;
-    public Integer to_age;
+    public Integer age;
     public Integer region;
     public Integer pageSize;
 }
