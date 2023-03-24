@@ -16,7 +16,7 @@ public class ReviewRequestDto {
     @NotEmpty(message = "contents 가 비워있습니다.")
     public String contents;
 
-    @Max(value = 5, message = "5 이하만 가능합니다.")
+    @Max(value = 10, message = "10 이하만 가능합니다.")
     @Min(value = 1, message = "1 이상만 가능합니다.")
     public int grade;
 
