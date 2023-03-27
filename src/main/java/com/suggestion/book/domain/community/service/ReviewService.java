@@ -57,6 +57,11 @@ public class ReviewService {
         return reviewRepository.findAllByIsbn(pageable,isbn).map(ReviewResponseDto::from);
     }
 
+    public Page<ReviewResponseDto> getReviewListByMember(Pageable pageable, String memberId) {
+        Member member = memberRepository.findByMemberId(memberId);
+        return reviewRepository.findAllByMember(pageable,member).map(ReviewResponseDto::from);
+    }
+
     @Transactional
     public void updateReview(Long reviewId, ContentsRequestDto contentsRequestDto, String memberId) {
         Optional<Review> reviewOpt = reviewRepository.findById(reviewId);
