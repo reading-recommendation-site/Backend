@@ -40,6 +40,13 @@ public class ReviewController {
         return reviewService.getReviewListByIsbn(pageable,isbn);
     }
 
+    @GetMapping(path = "/member/reviews")
+    public Page<ReviewResponseDto> getReviewByMember(
+            @PageableDefault(sort="createdAt", direction = Sort.Direction.DESC) Pageable pageable,
+            @AuthenticationPrincipal User principal) {
+        return reviewService.getReviewListByMember(pageable,principal.getUsername());
+    }
+
     @PutMapping(path = "/book/review/{id}")
     public ResponseEntity<String> updateReview(@PathVariable("id") Long reviewId,
                                                @Valid @RequestBody ContentsRequestDto contentsRequestDto,

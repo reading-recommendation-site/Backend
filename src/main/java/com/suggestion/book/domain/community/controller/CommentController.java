@@ -23,15 +23,22 @@ public class CommentController {
     @PostMapping(path = "/book/review/{id}/comment")
     public ResponseEntity<String> postComment(@PathVariable(name = "id") Long reviewId,
                                               @Valid @RequestBody ContentsRequestDto contentsRequestDto,
-                                              @AuthenticationPrincipal User principal) {
+                                              @AuthenticationPrincipal User principal
+                                              ) {
         commentService.createComment(reviewId, contentsRequestDto, principal.getUsername());
         return ResponseEntity.ok("댓글 작성 성공");
     }
 
-    @GetMapping(path = "/book/review/{id}/comment")
+    @GetMapping(path = "/book/review/{id}/comments")
     public Page<CommentResponseDto> getCommentListByReview(@PathVariable(name = "id") Long reviewId,
                                                            @PageableDefault(size=5, sort="createdAt", direction = Sort.Direction.DESC) Pageable pageable){
         return commentService.getCommentListByReview(reviewId, pageable);
+    }
+
+    @GetMapping(path = "/member/comments")
+    public Page<CommentResponseDto> getCommentListByReview(@AuthenticationPrincipal User principal,
+                                                           @PageableDefault(sort="createdAt", direction = Sort.Direction.DESC) Pageable pageable){
+        return commentService.getCommentListByMember(pageable, principal.getUsername());
     }
 
     @PutMapping(path = "/book/review/comment/{id}")
