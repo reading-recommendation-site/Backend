@@ -50,7 +50,7 @@ public class Member extends TimestampEntity {
         this.memberId = memberId;
         this.name = name;
         this.email = email != null ? email : "NO_EMAIL";;
-        this.nickname = "test";
+        this.nickname = name;
         this.profileImageUrl = profileImageUrl != null ? profileImageUrl : "";
         this.providerType = providerType;
         this.roleType = roleType;
