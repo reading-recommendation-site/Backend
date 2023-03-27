@@ -47,6 +47,11 @@ public class CommentService {
         return commentRepository.findAllByReview(pageable, review).map(CommentResponseDto::from);
     }
 
+    public Page<CommentResponseDto> getCommentListByMember(Pageable pageable, String memberId) {
+        Member member = memberRepository.findByMemberId(memberId);
+        return commentRepository.findAllByMember(pageable, member).map(CommentResponseDto::from);
+    }
+
     @Transactional
     public void updateComment(Long commentId, ContentsRequestDto contentsRequestDto, String memberId) {
         Optional<Comment> commentOpt = commentRepository.findById(commentId);
