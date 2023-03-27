@@ -14,7 +14,7 @@ public class MemberController {
     private final MemberService memberService;
 
     @GetMapping(path = "/member")
-    public MemberResponseDto getUser(@AuthenticationPrincipal User principal) {
+    public MemberResponseDto getMember(@AuthenticationPrincipal User principal) {
         return memberService.getMember(principal.getUsername());
     }
 }
