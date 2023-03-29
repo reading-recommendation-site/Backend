@@ -1,5 +1,6 @@
 package com.suggestion.book.domain.member.entity;
 
+import com.suggestion.book.domain.member.dto.NicknameRequestDto;
 import com.suggestion.book.domain.model.ProviderType;
 import com.suggestion.book.domain.model.RoleType;
 import com.suggestion.book.domain.model.TimestampEntity;
@@ -54,5 +55,9 @@ public class Member extends TimestampEntity {
         this.profileImageUrl = profileImageUrl != null ? profileImageUrl : "";
         this.providerType = providerType;
         this.roleType = roleType;
+    }
+
+    public void updateNickname(NicknameRequestDto nicknameRequestDto) {
+        this.nickname = nicknameRequestDto.getNickname();
     }
 }
