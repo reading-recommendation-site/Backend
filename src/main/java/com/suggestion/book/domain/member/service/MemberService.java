@@ -6,8 +6,10 @@ import com.suggestion.book.domain.member.entity.Member;
 import com.suggestion.book.domain.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class MemberService {
     private final MemberRepository memberRepository;
@@ -17,6 +19,7 @@ public class MemberService {
         return MemberResponseDto.from(member);
     }
 
+    @Transactional
     public void updateNickname(NicknameRequestDto nicknameRequestDto, String memberId) {
         Member member = memberRepository.findByMemberId(memberId);
         member.updateNickname(nicknameRequestDto);
