@@ -25,6 +25,15 @@ public class Review extends TimestampEntity {
     @JoinColumn(name = "member_no")
     private Member member;
 
+    @Column(name = "book_title")
+    private String bookTitle;
+
+    @Column(name = "book_author")
+    private String bookAuthor;
+
+    @Column(name = "book_img_url")
+    private String bookImgUrl;
+
     @Column(name = "isbn")
     private String isbn;
 
@@ -35,8 +44,11 @@ public class Review extends TimestampEntity {
     private int grade;
 
     @Builder
-    public Review(Member member, String isbn, String contents, int grade) {
+    public Review(Member member, String bookTitle, String bookAuthor, String bookImgUrl, String isbn, String contents, int grade) {
         this.member = member;
+        this.bookTitle = bookTitle;
+        this.bookAuthor = bookAuthor;
+        this.bookImgUrl = bookImgUrl;
         this.isbn = isbn;
         this.contents = contents;
         this.grade = grade;
