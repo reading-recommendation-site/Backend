@@ -5,6 +5,7 @@ import com.suggestion.book.domain.community.entity.Review;
 import com.suggestion.book.domain.member.entity.Member;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -16,6 +17,7 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
     @Query("delete from Comment c where c.review.no =:no ")
     void deleteByReview(Long no);
 
+    @EntityGraph(attributePaths = "member")
     Page<Comment> findAllByReview(Pageable pageable, Review review);
     Page<Comment> findAllByMember(Pageable pageable, Member member);
 }
