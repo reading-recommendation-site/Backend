@@ -10,14 +10,14 @@ import java.time.LocalDateTime;
 @Builder
 public class CommentResponseDto {
     public Long no;
-    public String memberName;
+    public String memberNickname;
     public String contents;
     public LocalDateTime createdAt;
 
     public static CommentResponseDto from(Comment comment){
         return CommentResponseDto.builder()
                 .no(comment.getNo())
-                .memberName(comment.getMember().getName())
+                .memberNickname(comment.getMember().getNickname())
                 .contents(comment.getContents())
                 .createdAt(comment.getCreatedAt())
                 .build();

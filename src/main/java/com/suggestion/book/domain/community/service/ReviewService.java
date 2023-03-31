@@ -39,11 +39,12 @@ public class ReviewService {
 
     @Transactional
     public void createReview(ReviewRequestDto reviewRequestDto, String memberId) {
-        if(isNotValidIsbn(reviewRequestDto.isbn)){
+        BookISBNResponseDto bookDataByISBN = getBookDataByISBN(reviewRequestDto.isbn);
+        if(bookDataByISBN.getTotal() != 1){
             throw new InvalidISBNException("isbn 이 존재 하지 않습니다.");
         }
         Member member = memberRepository.findByMemberId(memberId);
-        reviewRepository.save(reviewRequestDto.toEntity(member));
+        reviewRepository.save(reviewRequestDto.toEntity(member, bookDataByISBN));
     }
 
     public Page<ReviewResponseDto> getAllReviewList(Pageable pageable) {
@@ -51,7 +52,8 @@ public class ReviewService {
     }
 
     public Page<ReviewResponseDto> getReviewListByIsbn(Pageable pageable,String isbn) {
-        if(isNotValidIsbn(isbn)){
+        BookISBNResponseDto bookDataByISBN = getBookDataByISBN(isbn);
+        if(bookDataByISBN.getTotal() != 1){
             throw new InvalidISBNException("isbn 이 존재 하지 않습니다.");
         }
         return reviewRepository.findAllByIsbn(pageable,isbn).map(ReviewResponseDto::from);
@@ -84,7 +86,7 @@ public class ReviewService {
         reviewRepository.delete(review);
     }
 
-    private boolean isNotValidIsbn(String isbn){
+    private BookISBNResponseDto getBookDataByISBN(String isbn){
         Mono<BookISBNResponseDto> bookISBNResponseDtoMono = naverWebClientApi
                 .get()
                 .uri(uriBuilder -> uriBuilder
@@ -93,7 +95,6 @@ public class ReviewService {
                         .build())
                 .retrieve()
                 .bodyToMono(BookISBNResponseDto.class);
-        BookISBNResponseDto bookISBNResponseDto = bookISBNResponseDtoMono.block();
-        return bookISBNResponseDto == null || bookISBNResponseDto.getTotal() != 1;
+        return bookISBNResponseDtoMono.block();
     }
 }

@@ -20,9 +20,12 @@ public class ReviewRequestDto {
     @Min(value = 1, message = "1 이상만 가능합니다.")
     public int grade;
 
-    public Review toEntity(Member member) {
+    public Review toEntity(Member member, BookISBNResponseDto bookDto) {
         return Review.builder()
                 .member(member)
+                .bookTitle(bookDto.getItems().get(0).title)
+                .bookImgUrl(bookDto.items.get(0).image)
+                .bookAuthor(bookDto.items.get(0).author)
                 .isbn(isbn)
                 .contents(contents)
                 .grade(grade)

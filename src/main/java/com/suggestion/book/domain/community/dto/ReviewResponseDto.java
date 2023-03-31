@@ -11,7 +11,10 @@ import java.time.LocalDateTime;
 @Builder
 public class ReviewResponseDto {
     public Long no;
-    public String memberName;
+    public String memberNickname;
+    public String bookTitle;
+    public String bookAuthor;
+    public String bookImgUrl;
     public int grade;
     public String contents;
     public LocalDateTime createdAt;
@@ -19,7 +22,10 @@ public class ReviewResponseDto {
     public static ReviewResponseDto from(Review review) {
         return ReviewResponseDto.builder()
                 .no(review.getNo())
-                .memberName(review.getMember().getName())
+                .memberNickname(review.getMember().getNickname())
+                .bookTitle(review.getBookTitle())
+                .bookAuthor(review.getBookAuthor())
+                .bookImgUrl(review.getBookImgUrl())
                 .grade(review.getGrade())
                 .contents(review.getContents())
                 .createdAt(review.getCreatedAt())
@@ -29,7 +35,7 @@ public class ReviewResponseDto {
     public static ReviewResponseDto fromByLike(Like like) {
         return ReviewResponseDto.builder()
                 .no(like.getReview().getNo())
-                .memberName(like.getReview().getMember().getName())
+                .memberNickname(like.getReview().getMember().getName())
                 .grade(like.getReview().getGrade())
                 .contents(like.getReview().getContents())
                 .createdAt(like.getCreatedAt())
