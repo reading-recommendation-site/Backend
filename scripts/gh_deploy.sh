@@ -29,6 +29,8 @@ fi
 
 DEPLOY_JAR=$DEPLOY_PATH$JAR_NAME
 echo "> DEPLOY_JAR 배포" >> $DEPLOY_LOG_PATH
+source /home/ubuntu/.bash_profile
+echo $JASYPT_PASSWORD
 nohup java -jar -Djasypt.encryptor.password=$JASYPT_PASSWORD $DEPLOY_JAR >> $APPLICATION_LOG_PATH 2> $DEPLOY_ERR_LOG_PATH &
 
 sleep 3
