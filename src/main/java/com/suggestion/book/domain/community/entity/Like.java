@@ -20,7 +20,7 @@ public class Like extends TimestampEntity {
     @Column(name = "like_no")
     private Long no;
 
-    @ManyToOne()
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "review_no")
     private Review review;
 
