@@ -25,10 +25,11 @@ public class LikeController {
 
     @GetMapping(path = "member/likes")
     public Page<ReviewResponseDto> getLikeByMember(
-            @PageableDefault(size=20, sort="createdAt", direction = Sort.Direction.DESC) Pageable pageable,
+            @PageableDefault(sort="createdAt", direction = Sort.Direction.DESC) Pageable pageable,
             @AuthenticationPrincipal User principal) {
         return likeService.getLikeByMember(pageable, principal.getUsername());
     }
+
     @PostMapping(path = "review/{id}/like")
     public ResponseEntity<String> addLike(@PathVariable(name = "id") Long reviewId, @AuthenticationPrincipal User principal){
         likeService.addLike(reviewId,principal.getUsername());
