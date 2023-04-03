@@ -76,7 +76,7 @@ jwt:
 app:
   auth:
     tokenSecret: ENC(dSsEBRpI+EpYojJI6aREoYZchmg+8wnqbtM1hlM5yQu/hOsOJuUyXVSqel/pVbF8g86BIG10dlS4dZtRj57hiMITZpZTj+0eXAxdXA5wj7A=)
-    tokenExpiry: 1800000
+    tokenExpiry: 86400000 #24 hour
     refreshTokenExpiry: 604800000
   oauth2:
     authorizedRedirectUris:
