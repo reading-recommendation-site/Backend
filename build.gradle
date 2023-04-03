@@ -36,6 +36,7 @@ dependencies {
 	runtimeOnly "io.netty:netty-resolver-dns-native-macos:4.1.76.Final:osx-aarch_64"// 배포할때는 필요 없음
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.4'
+	implementation 'mysql:mysql-connector-java:8.0.32'
 }
 
 tasks.named('test') {
