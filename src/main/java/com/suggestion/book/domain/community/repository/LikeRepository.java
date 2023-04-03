@@ -5,6 +5,7 @@ import com.suggestion.book.domain.community.entity.Review;
 import com.suggestion.book.domain.member.entity.Member;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -21,5 +22,6 @@ public interface LikeRepository extends JpaRepository<Like, Long> {
 
     Optional<Like> findByMemberAndReview(Member member, Review review);
     List<Like> findByReview(Review review);
+    @EntityGraph(attributePaths = {"member","review"})
     Page<Like> findAllByMember(Pageable pageable, Member member);
 }
