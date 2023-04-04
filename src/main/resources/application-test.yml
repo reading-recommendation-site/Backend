@@ -1,0 +1,100 @@
+spring:
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;
+    username: sa
+    password:
+  jpa:
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  # Security OAuth
+  security:
+    oauth2.client:
+      registration:
+        google:
+          clientId: ENC(flS8waGoRXG3AhcIZRkXRJNzoeU3ckW90TQDhJuo2gvKJMpZ6+hyhsUqZkfqfvCWoZJBD4t5t+jkXJkEyNDaCvFYDlt5+LGOd8YiBbHPJ5fKCQcBuDPZhJPZF7exugcLb0vjMF7UJ/zqu1z3xFmqEg==)
+          clientSecret: ENC(iNbnMt6cBzVzHRuceBPfqbFbrkKLNLlBNSkzkXVqslooIUZMlVMw7PgYi9j6uxgcGl3WhUfzeQvvApXChnSwWj+etEpIDt+ITNUITkDTAtk=)
+          scope:
+            - email
+            - profile
+        naver:
+          clientId: ENC(iH9Kwbhq+hhE12Yb+NCwGmZnAB7VOhc4g7MsDu+8Q9YTM6mkdGA8fEQ69BFxz5b4DKAD7kb5WvS3npFUist6yQ==)
+          clientSecret: ENC(a4r50+b8BPAfCitAquCKUaO2OPZHDUdhg1cHo9Ud/H6IaVhL/V7VjXopU8hP3CjL)
+          clientAuthenticationMethod: post
+          authorizationGrantType: authorization_code
+          redirectUri: "{baseUrl}/{action}/oauth2/code/{registrationId}"
+          scope:
+            - nickname
+            - email
+            - profile_image
+          clientName: Naver
+        kakao:
+          clientId: ENC(VU+iQMQCGjIJxKsyjnV6O2pA7OucJoLF6LC9az/Z4ABHt42uxWw532iwroLyOw4Co675V8i0+9DKHOSo7pxZ2vS/Nv+H9Aq3+QDwiZ6ZpqI=)
+          clientSecret: ENC(waZ3qdro3LyuTur4yl0iFV5h8Iz3qwd8EHnblOL+/IabVI22mLzEj7qoouHTAKkn1quiHrrtlsH7b97JP+rzWb3mfL7JHJT9Lt/lWrIcdLA=)
+          clientAuthenticationMethod: post
+          authorizationGrantType: authorization_code
+          redirectUri: "{baseUrl}/{action}/oauth2/code/{registrationId}"
+          scope:
+            - profile_nickname
+            - profile_image
+            - account_email
+          clientName: Kakao
+      provider:
+        naver:
+          authorizationUri: https://nid.naver.com/oauth2.0/authorize
+          tokenUri: https://nid.naver.com/oauth2.0/token
+          userInfoUri: https://openapi.naver.com/v1/nid/me
+          userNameAttribute: response
+        kakao:
+          authorizationUri: https://kauth.kakao.com/oauth/authorize
+          tokenUri: https://kauth.kakao.com/oauth/token
+          userInfoUri: https://kapi.kakao.com/v2/user/me
+          userNameAttribute: id
+
+
+cors:
+  allowed-origins: 'http://localhost:3000'
+  allowed-methods: GET,POST,PUT,DELETE,OPTIONS
+  allowed-headers: '*'
+  max-age: 3600
+
+# jwt secret key
+jwt:
+  secret: ENC(aOtZN7Gov8cz+ZqagG5YNdZurrxmf+0dkcaEUIoEkV2hEenWl1+uN54zr/GBlnZFUxGtLYRdyIMVPBpaIvLZtq54pB6pgu1VSn0EaETKTuk=)
+
+# secret Key  RedirectUri
+app:
+  auth:
+    tokenSecret: ENC(dSsEBRpI+EpYojJI6aREoYZchmg+8wnqbtM1hlM5yQu/hOsOJuUyXVSqel/pVbF8g86BIG10dlS4dZtRj57hiMITZpZTj+0eXAxdXA5wj7A=)
+    tokenExpiry: 86400000 #24 hour
+    refreshTokenExpiry: 604800000
+  oauth2:
+    authorizedRedirectUris:
+      - http://localhost:3000/sologin
+
+api:
+  naver:
+    uri: "https://openapi.naver.com/v1"
+    naver-client-id: ENC(T1WU3Jz+b534g67y6gIfZYRsxtz/pONU8WUlZRhcNnMNggu0Wh0TaT+dRht5lMOKoeQyzEIxvBHjVEMhtaO8+A==)
+    naver-client-secret: ENC(HBBFDL04y4saB7oMCK+mZrqhfFNDdAI3mk9c8KBygmpLoX4Mamc7LYy62G1BF6Ia)
+  aladin:
+    uri: "http://www.aladin.co.kr/ttb/api"
+    ttb-key: ENC(mXvF+ivFqxn3ykG1qECT3Z6/f2CrtaBPpC59qKy2FZmirMAn2LoFh/yWm63O8O3vFy7jpbqDOHRxgVP1Rc719g==)
+  naru:
+    uri: "http://data4library.kr/api"
+    auth-key: ENC(OPRylbs7cbWJFtFoCBLqTR6FpidAdAIA0GVGWL8T9QPyRFvap+mj23YNMzKE7GXJD78sLjqXkar5NvmUYDAPkBWnR1xMvWo7QEcJIOP/ytj2ERlauoe7rd4c1Oju98lVoxUIuaX5FD6LKqjjAXB2kw==)
+
+jasypt:
+  encryptor:
+    bean: jasyptStringEncryptor
+    password:
