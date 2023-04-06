@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -30,14 +31,16 @@ public class ReviewController {
 
     @GetMapping(path = "/reviews")
     public Page<ReviewResponseDto> getAllReviewList(
-            @PageableDefault(size=20, sort="createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
-        return reviewService.getAllReviewList(pageable);
+            @PageableDefault(size=20, sort="createdAt", direction = Sort.Direction.DESC) Pageable pageable,
+            @AuthenticationPrincipal User principal) {
+        return reviewService.getAllReviewList(pageable, Optional.ofNullable(principal));
     }
 
     @GetMapping(path = "/book/{isbn}/review")
     public Page<ReviewResponseDto> getAllReviewList(@PathVariable("isbn") String isbn,
-            @PageableDefault(size=5, sort="createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
-        return reviewService.getReviewListByIsbn(pageable,isbn);
+            @PageableDefault(size=5, sort="createdAt", direction = Sort.Direction.DESC) Pageable pageable,
+            @AuthenticationPrincipal User principal) {
+        return reviewService.getReviewListByIsbn(pageable,isbn, Optional.ofNullable(principal));
     }
 
     @GetMapping(path = "/member/reviews")

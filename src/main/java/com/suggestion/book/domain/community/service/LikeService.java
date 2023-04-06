@@ -1,7 +1,7 @@
 package com.suggestion.book.domain.community.service;
 
 import com.suggestion.book.domain.community.dto.LikeResponseDto;
-import com.suggestion.book.domain.community.dto.ReviewResponseDto;
+import com.suggestion.book.domain.community.dto.ReviewByLikeResponseDto;
 import com.suggestion.book.domain.community.entity.Like;
 import com.suggestion.book.domain.community.entity.Review;
 import com.suggestion.book.domain.community.exception.LikeNotFoundException;
@@ -40,9 +40,9 @@ public class LikeService {
                 .build();
     }
 
-    public Page<ReviewResponseDto> getLikeByMember(Pageable pageable, String memberId) {
+    public Page<ReviewByLikeResponseDto> getLikeByMember(Pageable pageable, String memberId) {
         Member member = memberRepository.findByMemberId(memberId);
-        return likeRepository.findAllByMember(pageable, member).map(ReviewResponseDto::fromByLike);
+        return likeRepository.findAllByMember(pageable, member).map(ReviewByLikeResponseDto::from);
     }
 
     @Transactional

@@ -22,6 +22,6 @@ public interface LikeRepository extends JpaRepository<Like, Long> {
 
     Optional<Like> findByMemberAndReview(Member member, Review review);
     List<Like> findByReview(Review review);
-    @EntityGraph(attributePaths = {"member","review"})
+    @EntityGraph(attributePaths = {"review.member","review"})
     Page<Like> findAllByMember(Pageable pageable, Member member);
 }

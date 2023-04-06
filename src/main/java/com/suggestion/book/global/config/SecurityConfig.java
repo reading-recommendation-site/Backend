@@ -62,6 +62,7 @@ public class SecurityConfig{
                 .antMatchers("/search/**").permitAll()
                 .antMatchers("/recommendation/**").permitAll()
                 .antMatchers("/reviews/**").permitAll()
+                .antMatchers("/book/**").permitAll()
                 .anyRequest().authenticated() //모든 사용자는 인증이 되어야 한다.
                 .and()
                 .oauth2Login()
