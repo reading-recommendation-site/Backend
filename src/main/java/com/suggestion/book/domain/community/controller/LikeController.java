@@ -1,7 +1,7 @@
 package com.suggestion.book.domain.community.controller;
 
 import com.suggestion.book.domain.community.dto.LikeResponseDto;
-import com.suggestion.book.domain.community.dto.ReviewResponseDto;
+import com.suggestion.book.domain.community.dto.ReviewByLikeResponseDto;
 import com.suggestion.book.domain.community.service.LikeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -24,7 +24,7 @@ public class LikeController {
     }
 
     @GetMapping(path = "member/likes")
-    public Page<ReviewResponseDto> getLikeByMember(
+    public Page<ReviewByLikeResponseDto> getLikeByMember(
             @PageableDefault(sort="createdAt", direction = Sort.Direction.DESC) Pageable pageable,
             @AuthenticationPrincipal User principal) {
         return likeService.getLikeByMember(pageable, principal.getUsername());
