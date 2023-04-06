@@ -8,10 +8,9 @@ spring:
     generate-ddl: true
     hibernate:
       ddl-auto: update
-    show-sql: true
     properties:
       hibernate:
-        format_sql: true
+        default_batch_fetch_size: 100
 
   # Security OAuth
   security:
