@@ -1,6 +1,5 @@
 package com.suggestion.book.domain.community.dto;
 
-import com.suggestion.book.domain.community.entity.Like;
 import com.suggestion.book.domain.community.entity.Review;
 import lombok.Builder;
 import lombok.Getter;
