@@ -17,6 +17,9 @@ public class ReviewResponseDto {
     public String bookImgUrl;
     public int grade;
     public String contents;
+    public int commentCount;
+    public int likeCount;
+    public boolean liked;
     public LocalDateTime createdAt;
 
     public static ReviewResponseDto from(Review review) {
@@ -28,6 +31,9 @@ public class ReviewResponseDto {
                 .bookImgUrl(review.getBookImgUrl())
                 .grade(review.getGrade())
                 .contents(review.getContents())
+                .commentCount(review.getComments().size())
+                .likeCount(review.getLikes().size())
+                .liked(false)
                 .createdAt(review.getCreatedAt())
                 .build();
     }
