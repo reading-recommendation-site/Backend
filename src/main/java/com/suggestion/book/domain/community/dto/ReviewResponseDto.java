@@ -38,16 +38,19 @@ public class ReviewResponseDto {
                 .build();
     }
 
-    public static ReviewResponseDto fromByLike(Like like) {
+    public static ReviewResponseDto from(Review review, String memberId) {
         return ReviewResponseDto.builder()
-                .no(like.getReview().getNo())
-                .memberNickname(like.getReview().getMember().getName())
-                .bookTitle(like.getReview().getBookTitle())
-                .bookAuthor(like.getReview().getBookAuthor())
-                .bookImgUrl(like.getReview().getBookImgUrl())
-                .grade(like.getReview().getGrade())
-                .contents(like.getReview().getContents())
-                .createdAt(like.getCreatedAt())
+                .no(review.getNo())
+                .memberNickname(review.getMember().getNickname())
+                .bookTitle(review.getBookTitle())
+                .bookAuthor(review.getBookAuthor())
+                .bookImgUrl(review.getBookImgUrl())
+                .grade(review.getGrade())
+                .contents(review.getContents())
+                .commentCount(review.getComments().size())
+                .likeCount(review.getLikes().size())
+                .liked(review.getLikes().stream().anyMatch(like -> like.getMember().getMemberId().equals(memberId)))
+                .createdAt(review.getCreatedAt())
                 .build();
     }
 }
