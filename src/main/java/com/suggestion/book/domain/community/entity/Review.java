@@ -9,6 +9,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Entity
@@ -24,6 +26,12 @@ public class Review extends TimestampEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_no")
     private Member member;
+
+    @OneToMany(mappedBy = "review")
+    private List<Comment> comments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "review")
+    private List<Like> likes = new ArrayList<>();
 
     @Column(name = "book_title")
     private String bookTitle;
