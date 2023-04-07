@@ -5,6 +5,7 @@ import com.suggestion.book.domain.community.dto.ReviewByLikeResponseDto;
 import com.suggestion.book.domain.community.entity.Like;
 import com.suggestion.book.domain.community.entity.Review;
 import com.suggestion.book.domain.community.exception.LikeNotFoundException;
+import com.suggestion.book.domain.community.exception.MemberNotFoundException;
 import com.suggestion.book.domain.community.exception.ReviewNotFoundException;
 import com.suggestion.book.domain.community.repository.LikeRepository;
 import com.suggestion.book.domain.community.repository.ReviewRepository;
@@ -30,7 +31,8 @@ public class LikeService {
     public LikeResponseDto getLike(Long reviewId, String memberId) {
         Optional<Review> reviewOpt = reviewRepository.findById(reviewId);
         Review review = reviewOpt.orElseThrow(() -> new ReviewNotFoundException("리뷰가 존재 하지 않습니다."));
-        Member member = memberRepository.findByMemberId(memberId);
+        Member member = memberRepository.findByMemberId(memberId)
+                .orElseThrow(() -> new MemberNotFoundException("멤버가 존재 하지 않습니다."));
         Optional<Like> likeOpt = likeRepository.findByMemberAndReview(member,review);
         List<Like> likeList = likeRepository.findByReview(review);
         return LikeResponseDto.builder()
@@ -40,7 +42,8 @@ public class LikeService {
     }
 
     public Page<ReviewByLikeResponseDto> getLikeByMember(Pageable pageable, String memberId) {
-        Member member = memberRepository.findByMemberId(memberId);
+        Member member = memberRepository.findByMemberId(memberId)
+                .orElseThrow(() -> new MemberNotFoundException("멤버가 존재 하지 않습니다."));
         return likeRepository.findAllByMember(pageable, member).map(ReviewByLikeResponseDto::from);
     }
 
@@ -48,7 +51,8 @@ public class LikeService {
     public void addLike(Long reviewId, String memberId) {
         Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new ReviewNotFoundException("리뷰가 존재 하지 않습니다."));
-        Member member = memberRepository.findByMemberId(memberId);
+        Member member = memberRepository.findByMemberId(memberId)
+                .orElseThrow(() -> new MemberNotFoundException("멤버가 존재 하지 않습니다."));
         if(likeRepository.findByMemberAndReview(member,review).isEmpty()){
             likeRepository.save(Like.builder()
                             .review(review)
@@ -61,7 +65,8 @@ public class LikeService {
     public void deleteLike(Long reviewId, String memberId) {
         Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new ReviewNotFoundException("리뷰가 존재 하지 않습니다."));
-        Member member = memberRepository.findByMemberId(memberId);
+        Member member = memberRepository.findByMemberId(memberId)
+                .orElseThrow(() -> new MemberNotFoundException("멤버가 존재 하지 않습니다."));
         Like like = likeRepository.findByMemberAndReview(member, review)
                 .orElseThrow(() -> new LikeNotFoundException("좋아요가 없습니다."));
         likeRepository.delete(like);
