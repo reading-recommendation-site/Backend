@@ -66,7 +66,7 @@ public class ReviewService {
 
     public Page<ReviewResponseDto> getReviewListByMember(Pageable pageable, String memberId) {
         Member member = memberRepository.findByMemberId(memberId);
-        return reviewRepository.findAllByMember(pageable,member).map(ReviewResponseDto::from);
+        return reviewRepository.findAllByMember(pageable,member).map(review -> ReviewResponseDto.from(review, memberId));
     }
 
     @Transactional
