@@ -50,6 +50,15 @@ public class GlobalExceptionHandler {
     }
 
     /**
+     * 멤버가 DB에 존재 하지 않는 경우 발생 한다.
+     */
+    @ExceptionHandler(MemberNotFoundException.class)
+    protected ResponseEntity<?> handleMemberNotFoundException(MemberNotFoundException e) {
+        log.warn("MemberNotFoundException : "+e.getMessage());
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    /**
      * db에 찾고자 하는 댓글이 존재 하지 않는 경우 발생 한다.
      */
     @ExceptionHandler(CommentNotFoundException.class)
