@@ -6,6 +6,7 @@ import com.suggestion.book.domain.community.entity.Comment;
 import com.suggestion.book.domain.community.entity.Review;
 import com.suggestion.book.domain.community.exception.CommentNotFoundException;
 import com.suggestion.book.domain.community.exception.MemberIdMismatchException;
+import com.suggestion.book.domain.community.exception.MemberNotFoundException;
 import com.suggestion.book.domain.community.exception.ReviewNotFoundException;
 import com.suggestion.book.domain.community.repository.CommentRepository;
 import com.suggestion.book.domain.community.repository.ReviewRepository;
@@ -32,7 +33,8 @@ public class CommentService {
     public void createComment(Long reviewId, ContentsRequestDto contentsRequestDto, String memberId) {
         Optional<Review> reviewOpt = reviewRepository.findById(reviewId);
         Review review = reviewOpt.orElseThrow(() -> new ReviewNotFoundException("리뷰가 존재 하지 않습니다."));
-        Member member = memberRepository.findByMemberId(memberId);
+        Member member = memberRepository.findByMemberId(memberId)
+                .orElseThrow(() -> new MemberNotFoundException("멤버가 존재 하지 않습니다."));
         commentRepository.save(Comment.builder()
                 .review(review)
                 .member(member)
@@ -48,7 +50,8 @@ public class CommentService {
     }
 
     public Page<CommentResponseDto> getCommentListByMember(Pageable pageable, String memberId) {
-        Member member = memberRepository.findByMemberId(memberId);
+        Member member = memberRepository.findByMemberId(memberId)
+                .orElseThrow(() -> new MemberNotFoundException("멤버가 존재 하지 않습니다."));
         return commentRepository.findAllByMember(pageable, member).map(CommentResponseDto::from);
     }
 

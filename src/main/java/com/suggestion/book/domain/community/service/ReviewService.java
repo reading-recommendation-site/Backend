@@ -7,6 +7,7 @@ import com.suggestion.book.domain.community.dto.ReviewResponseDto;
 import com.suggestion.book.domain.community.entity.Review;
 import com.suggestion.book.domain.community.exception.InvalidISBNException;
 import com.suggestion.book.domain.community.exception.MemberIdMismatchException;
+import com.suggestion.book.domain.community.exception.MemberNotFoundException;
 import com.suggestion.book.domain.community.exception.ReviewNotFoundException;
 import com.suggestion.book.domain.community.repository.CommentRepository;
 import com.suggestion.book.domain.community.repository.LikeRepository;
@@ -44,7 +45,8 @@ public class ReviewService {
         if(bookDataByISBN.getTotal() != 1){
             throw new InvalidISBNException("isbn 이 존재 하지 않습니다.");
         }
-        Member member = memberRepository.findByMemberId(memberId);
+        Member member = memberRepository.findByMemberId(memberId)
+                .orElseThrow(() -> new MemberNotFoundException("멤버가 존재 하지 않습니다."));
         reviewRepository.save(reviewRequestDto.toEntity(member, bookDataByISBN));
     }
 
@@ -65,7 +67,8 @@ public class ReviewService {
     }
 
     public Page<ReviewResponseDto> getReviewListByMember(Pageable pageable, String memberId) {
-        Member member = memberRepository.findByMemberId(memberId);
+        Member member = memberRepository.findByMemberId(memberId)
+                .orElseThrow(() -> new MemberNotFoundException("멤버가 존재 하지 않습니다."));
         return reviewRepository.findAllByMember(pageable,member).map(review -> ReviewResponseDto.from(review, memberId));
     }
 
