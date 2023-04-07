@@ -36,10 +36,9 @@ public class LikeController {
         return ResponseEntity.ok("좋아요 클릭");
     }
 
-    @DeleteMapping(path = "review/{id}/like/{likeId}")
-    public ResponseEntity<String> deleteLike(@PathVariable(name = "id") Long reviewId, @PathVariable(name = "likeId") Long likeId,
-                                             @AuthenticationPrincipal User principal){
-        likeService.deleteLike(reviewId,principal.getUsername(),likeId);
+    @DeleteMapping(path = "review/{id}/like")
+    public ResponseEntity<String> deleteLike(@PathVariable(name = "id") Long reviewId, @AuthenticationPrincipal User principal){
+        likeService.deleteLike(reviewId,principal.getUsername());
         return ResponseEntity.ok("좋아요 취소");
     }
 }

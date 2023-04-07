@@ -5,7 +5,6 @@ import com.suggestion.book.domain.community.dto.ReviewByLikeResponseDto;
 import com.suggestion.book.domain.community.entity.Like;
 import com.suggestion.book.domain.community.entity.Review;
 import com.suggestion.book.domain.community.exception.LikeNotFoundException;
-import com.suggestion.book.domain.community.exception.MemberIdMismatchException;
 import com.suggestion.book.domain.community.exception.ReviewNotFoundException;
 import com.suggestion.book.domain.community.repository.LikeRepository;
 import com.suggestion.book.domain.community.repository.ReviewRepository;
@@ -47,8 +46,8 @@ public class LikeService {
 
     @Transactional
     public void addLike(Long reviewId, String memberId) {
-        Optional<Review> reviewOpt = reviewRepository.findById(reviewId);
-        Review review = reviewOpt.orElseThrow(() -> new ReviewNotFoundException("리뷰가 존재 하지 않습니다."));
+        Review review = reviewRepository.findById(reviewId)
+                .orElseThrow(() -> new ReviewNotFoundException("리뷰가 존재 하지 않습니다."));
         Member member = memberRepository.findByMemberId(memberId);
         if(likeRepository.findByMemberAndReview(member,review).isEmpty()){
             likeRepository.save(Like.builder()
@@ -59,12 +58,12 @@ public class LikeService {
     }
 
     @Transactional
-    public void deleteLike(Long reviewId, String memberId,Long likeId) {
-        reviewRepository.findById(reviewId).orElseThrow(() -> new ReviewNotFoundException("리뷰가 존재 하지 않습니다."));
-        Like like = likeRepository.findById(likeId).orElseThrow(() -> new LikeNotFoundException("좋아요가 없습니다."));
-        if (!memberId.equals(like.getMember().getMemberId())) {
-            throw new MemberIdMismatchException("멤버가 불일치 합니다.");
-        }
-        likeRepository.deleteById(likeId);
+    public void deleteLike(Long reviewId, String memberId) {
+        Review review = reviewRepository.findById(reviewId)
+                .orElseThrow(() -> new ReviewNotFoundException("리뷰가 존재 하지 않습니다."));
+        Member member = memberRepository.findByMemberId(memberId);
+        Like like = likeRepository.findByMemberAndReview(member, review)
+                .orElseThrow(() -> new LikeNotFoundException("좋아요가 없습니다."));
+        likeRepository.delete(like);
     }
 }
