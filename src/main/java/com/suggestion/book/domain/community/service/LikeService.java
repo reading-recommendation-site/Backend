@@ -1,6 +1,5 @@
 package com.suggestion.book.domain.community.service;
 
-import com.suggestion.book.domain.community.dto.LikeResponseDto;
 import com.suggestion.book.domain.community.dto.ReviewByLikeResponseDto;
 import com.suggestion.book.domain.community.entity.Like;
 import com.suggestion.book.domain.community.entity.Review;
@@ -17,9 +16,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
-
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -27,19 +23,6 @@ public class LikeService {
     private final LikeRepository likeRepository;
     private final ReviewRepository reviewRepository;
     private final MemberRepository memberRepository;
-
-    public LikeResponseDto getLike(Long reviewId, String memberId) {
-        Optional<Review> reviewOpt = reviewRepository.findById(reviewId);
-        Review review = reviewOpt.orElseThrow(() -> new ReviewNotFoundException("리뷰가 존재 하지 않습니다."));
-        Member member = memberRepository.findByMemberId(memberId)
-                .orElseThrow(() -> new MemberNotFoundException("멤버가 존재 하지 않습니다."));
-        Optional<Like> likeOpt = likeRepository.findByMemberAndReview(member,review);
-        List<Like> likeList = likeRepository.findByReview(review);
-        return LikeResponseDto.builder()
-                .likeNo(likeOpt.map(Like::getNo).orElse(0L))
-                .count(likeList.size())
-                .build();
-    }
 
     public Page<ReviewByLikeResponseDto> getLikeByMember(Pageable pageable, String memberId) {
         Member member = memberRepository.findByMemberId(memberId)
