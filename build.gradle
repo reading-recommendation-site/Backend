@@ -37,6 +37,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.4'
 	implementation 'mysql:mysql-connector-java:8.0.32'
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 }
 
 tasks.named('test') {
