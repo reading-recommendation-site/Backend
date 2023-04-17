@@ -4,6 +4,8 @@ spring:
     url: ENC(XKXprCktka1FakzQPF/ADJPaH8IaaODrZzqNOUbcn7jSwOfe3zVW6CRhyeZR33kqcCrtUGZAe8IaqjniZU+8O65sNnJ/OswMYqxglaW8CHAip8r0Zpw5Bz9zhALTPkshiIFqBgqC8YYlzat8pmb9EhLq0nz4kp8cMwVxEx506KMfp8xWU3yTzic+znZHkEqFfwKidgKVJ/Wy6dNX9hDaLnVjLrAyfcKcMg9EtQ+WYc8=)
     username: ENC(rlxZ3yPQaez8Kq6MlFSHnmiGeHdd7jjS/8IYPmd2oWc/bQ2IB8uh+A3ywkbSY9NN)
     password: ENC(nUfmxmuyBsiVBJu9xCMo8eNsz+nu2Mlhb8tdhKLp1R2t4F1H2VPjCHEr0PVRFQ9Q)
+    hikari:
+      maximum-pool-size: 20
   jpa:
     generate-ddl: true
     hibernate:
