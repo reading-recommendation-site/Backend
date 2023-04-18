@@ -1,6 +1,7 @@
 package com.suggestion.book.global.error;
 
 import com.suggestion.book.domain.community.exception.*;
+import com.suggestion.book.domain.recommendation.exception.KeyNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -74,5 +75,14 @@ public class GlobalExceptionHandler {
     protected ResponseEntity<?> handleLikeNotFoundException(LikeNotFoundException e) {
         log.warn("LikeNotFoundException : {} ",e.getMessage());
         return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+    }
+
+    /**
+     * redis 입력한 key 값이 없는 경우
+     */
+    @ExceptionHandler(KeyNotFoundException.class)
+    protected ResponseEntity<?> handleKeyNotFoundException(KeyNotFoundException e) {
+        log.warn("KeyNotFoundException : {} ",e.getMessage());
+        return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);
     }
 }
