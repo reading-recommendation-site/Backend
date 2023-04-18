@@ -1,5 +1,6 @@
 package com.suggestion.book.domain.recommendation.service;
 
+import com.suggestion.book.domain.model.PopularBookClassification;
 import com.suggestion.book.domain.recommendation.dto.PopularBookConditionsRequestDto;
 import com.suggestion.book.domain.recommendation.dto.PopularBookListResponseDto;
 import com.suggestion.book.domain.recommendation.entity.PopularBook;
@@ -9,7 +10,6 @@ import com.suggestion.book.global.utils.MultiValueMapConverterUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
@@ -26,7 +26,6 @@ public class CacheSchedulerService {
     private final ApiProperties apiProperties;
     private static final String POPULAR_BOOK_URI = "/loanItemSrch";
 
-    @Transactional
     @Scheduled(fixedDelay = 100000, initialDelay = 5000)
     public void scheduleFixedRateWithInitialDelayTask() {
         String lastMonthDate = getLastMonthDate();
