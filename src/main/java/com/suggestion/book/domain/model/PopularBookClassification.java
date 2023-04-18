@@ -1,4 +1,4 @@
-package com.suggestion.book.domain.recommendation.service;
+package com.suggestion.book.domain.model;
 
 import lombok.Getter;
 
