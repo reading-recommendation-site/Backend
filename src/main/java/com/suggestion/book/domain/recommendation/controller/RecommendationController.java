@@ -1,6 +1,7 @@
 package com.suggestion.book.domain.recommendation.controller;
 
 import com.suggestion.book.domain.recommendation.dto.BestSellerListResponseDto;
+import com.suggestion.book.domain.recommendation.dto.PopularBookConditionsRequestDto;
 import com.suggestion.book.domain.recommendation.dto.PopularBookListResponseDto;
 import com.suggestion.book.domain.recommendation.service.RecommendationService;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,11 @@ public class RecommendationController {
     @GetMapping(path = "/recommendation/genre")
     public Mono<BestSellerListResponseDto> getByGenreBookList(@RequestParam int category) {
         return recommendationService.getByGenre(category);
+    }
+
+    @GetMapping(path = "/recommendation/popularity")
+    public PopularBookListResponseDto getPopularBookList(PopularBookConditionsRequestDto dto) {
+        return recommendationService.getPopularBook(dto);
     }
 
     @GetMapping(path = "/recommendation/popularity/{division}")
