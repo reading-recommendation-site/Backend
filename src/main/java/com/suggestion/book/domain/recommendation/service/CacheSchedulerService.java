@@ -3,8 +3,6 @@ package com.suggestion.book.domain.recommendation.service;
 import com.suggestion.book.domain.model.PopularBookClassification;
 import com.suggestion.book.domain.recommendation.dto.PopularBookConditionsRequestDto;
 import com.suggestion.book.domain.recommendation.dto.PopularBookListResponseDto;
-import com.suggestion.book.domain.recommendation.entity.PopularBook;
-import com.suggestion.book.domain.recommendation.repository.PopularBookRedisRepository;
 import com.suggestion.book.global.config.properties.ApiProperties;
 import com.suggestion.book.global.utils.MultiValueMapConverterUtil;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +10,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -22,19 +19,21 @@ import java.util.Calendar;
 public class CacheSchedulerService {
 
     private final WebClient data4libraryWebClientApi;
-    private final PopularBookRedisRepository popularBookRedisRepository;
+    private final PopularBookSaveService popularBookSaveService;
     private final ApiProperties apiProperties;
     private static final String POPULAR_BOOK_URI = "/loanItemSrch";
 
-    @Scheduled(fixedDelay = 100000, initialDelay = 5000)
+    /**
+     * 24시 마다 redis 에 인기 도서를 저장 합니다.
+     */
+    @Scheduled(cron = "0 0 24 * * *")
     public void scheduleFixedRateWithInitialDelayTask() {
         String lastMonthDate = getLastMonthDate();
-
         for (PopularBookClassification p : PopularBookClassification.values()) {
             PopularBookConditionsRequestDto conditionsDto = new PopularBookConditionsRequestDto(p);
             conditionsDto.setStartDt(lastMonthDate);
             MultiValueMap<String, String> params = MultiValueMapConverterUtil.convert(conditionsDto);
-            Mono<PopularBookListResponseDto> popularBookListResponseDtoMono = data4libraryWebClientApi
+            data4libraryWebClientApi
                     .get()
                     .uri(uriBuilder -> uriBuilder
                             .path(POPULAR_BOOK_URI)
@@ -43,17 +42,9 @@ public class CacheSchedulerService {
                             .queryParam("format", "json")
                             .build())
                     .retrieve()
-                    .bodyToMono(PopularBookListResponseDto.class);
-            PopularBookListResponseDto block = popularBookListResponseDtoMono.block();
-            popularBookRedisRepository.save(PopularBook.builder()
-                    .id(p.name())
-                    .popularBookListResponseDto(block)
-                    .build()
-            );
+                    .bodyToFlux(PopularBookListResponseDto.class)
+                    .subscribe(e -> popularBookSaveService.popularBookSave(p.name(), e));
         }
-
-        long now = System.currentTimeMillis() / 1000;
-        System.out.println("Fixed rate task with one second initial delay -{}"+ now);
     }
 
     private String getLastMonthDate(){
