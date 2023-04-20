@@ -13,6 +13,9 @@ spring:
     properties:
       hibernate:
         default_batch_fetch_size: 100
+  redis:
+    host: ENC(I3N2z7DpUv+kJKRVGkEG6epqF+JhzJSGvi3bEUH+Y1+nrWSawANGKSugdw6TH8fdTxe+BOW/5FdNu3kbsKxRzqYIf24t1Av4dsQ784pw6fy+N9wYLDAKLW41fReT3YtU)
+    port: 6379
 
   # Security OAuth
   security:
