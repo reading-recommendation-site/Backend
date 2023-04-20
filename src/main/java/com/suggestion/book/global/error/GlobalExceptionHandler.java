@@ -1,6 +1,7 @@
 package com.suggestion.book.global.error;
 
 import com.suggestion.book.domain.community.exception.*;
+import com.suggestion.book.domain.recommendation.exception.KeyNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +18,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     protected ResponseEntity<?> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
-        log.warn("MethodArgumentNotValidException : "+ e.getBindingResult());
+        log.warn("MethodArgumentNotValidException : {} ", e.getBindingResult());
         String errorLog = e.getBindingResult().getAllErrors().get(0).getDefaultMessage();
         return new ResponseEntity<>(errorLog, HttpStatus.BAD_REQUEST);
     }
@@ -27,7 +28,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(InvalidISBNException.class)
     protected ResponseEntity<?> handleInvalidISBNException(InvalidISBNException e) {
-        log.warn("InvalidISBNException : "+ e.getMessage());
+        log.warn("InvalidISBNException : {} ",e.getMessage());
         return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
@@ -36,7 +37,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(ReviewNotFoundException.class)
     protected ResponseEntity<?> handleReviewNotFoundException(ReviewNotFoundException e) {
-        log.warn("ReviewNotFoundException : "+ e.getMessage());
+        log.warn("ReviewNotFoundException : {} ",e.getMessage());
         return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
@@ -45,7 +46,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(MemberIdMismatchException.class)
     protected ResponseEntity<?> handleMemberIdMismatchException(MemberIdMismatchException e) {
-        log.warn("MemberIdMismatchException : "+ e.getMessage());
+        log.warn("MemberIdMismatchException : {} ",e.getMessage());
         return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
@@ -54,7 +55,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(MemberNotFoundException.class)
     protected ResponseEntity<?> handleMemberNotFoundException(MemberNotFoundException e) {
-        log.warn("MemberNotFoundException : "+e.getMessage());
+        log.warn("MemberNotFoundException : {} ",e.getMessage());
         return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
@@ -63,7 +64,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(CommentNotFoundException.class)
     protected ResponseEntity<?> handleCommentNotFoundException(CommentNotFoundException e) {
-        log.warn("CommentNotFoundException : "+e.getMessage());
+        log.warn("CommentNotFoundException : {} ",e.getMessage());
         return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
     }
 
@@ -72,7 +73,16 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(LikeNotFoundException.class)
     protected ResponseEntity<?> handleLikeNotFoundException(LikeNotFoundException e) {
-        log.warn("LikeNotFoundException : "+e.getMessage());
+        log.warn("LikeNotFoundException : {} ",e.getMessage());
         return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+    }
+
+    /**
+     * redis 입력한 key 값이 없는 경우
+     */
+    @ExceptionHandler(KeyNotFoundException.class)
+    protected ResponseEntity<?> handleKeyNotFoundException(KeyNotFoundException e) {
+        log.warn("KeyNotFoundException : {} ",e.getMessage());
+        return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);
     }
 }
