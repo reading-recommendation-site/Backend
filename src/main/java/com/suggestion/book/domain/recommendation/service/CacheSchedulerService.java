@@ -26,7 +26,7 @@ public class CacheSchedulerService {
     /**
      * 24시 마다 redis 에 인기 도서를 저장 합니다.
      */
-    @Scheduled(cron = "0 0 24 * * *")
+    @Scheduled(cron = "0 0 0 * * *")
     public void scheduleFixedRateWithInitialDelayTask() {
         String lastMonthDate = getLastMonthDate();
         for (PopularBookClassification p : PopularBookClassification.values()) {
