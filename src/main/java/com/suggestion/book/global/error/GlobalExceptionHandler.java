@@ -1,5 +1,6 @@
 package com.suggestion.book.global.error;
 
+import com.suggestion.book.domain.book.exception.NotFoundBookmarkException;
 import com.suggestion.book.domain.community.exception.*;
 import com.suggestion.book.domain.recommendation.exception.KeyNotFoundException;
 import lombok.extern.slf4j.Slf4j;
@@ -84,5 +85,14 @@ public class GlobalExceptionHandler {
     protected ResponseEntity<?> handleKeyNotFoundException(KeyNotFoundException e) {
         log.warn("KeyNotFoundException : {} ",e.getMessage());
         return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);
+    }
+
+    /**
+     * 북마크가 존재 하지 않는 경우
+     */
+    @ExceptionHandler(NotFoundBookmarkException.class)
+    protected ResponseEntity<?> handleNotFoundBookmarkException(NotFoundBookmarkException e) {
+        log.warn("NotFoundBookmarkException : {} ",e.getMessage());
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
     }
 }
