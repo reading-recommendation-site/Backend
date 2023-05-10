@@ -1,6 +1,7 @@
 package com.suggestion.book.domain.recommendation.service;
 
 import com.suggestion.book.domain.model.PopularBookClassification;
+import com.suggestion.book.domain.recommendation.dto.BestSellerListResponseDto;
 import com.suggestion.book.domain.recommendation.dto.PopularBookConditionsRequestDto;
 import com.suggestion.book.domain.recommendation.dto.PopularBookListResponseDto;
 import com.suggestion.book.global.config.properties.ApiProperties;
@@ -17,11 +18,34 @@ import java.util.Calendar;
 @Service
 @RequiredArgsConstructor
 public class CacheSchedulerService {
-
+    private final WebClient aladinWebClientApi;
     private final WebClient data4libraryWebClientApi;
     private final PopularBookSaveService popularBookSaveService;
     private final ApiProperties apiProperties;
+
+    private static final String ALADIN_URI = "/ItemList.aspx";
     private static final String POPULAR_BOOK_URI = "/loanItemSrch";
+
+    /**
+     * 24시 마다 redis 에 베스트 셀러 를 저장 합니다.
+     */
+    @Scheduled(cron = "0 0 0 * * *")
+    public void saveBestSellers() {
+        aladinWebClientApi
+                .get()
+                .uri(uriBuilder -> uriBuilder
+                        .path(ALADIN_URI)
+                        .queryParam("ttbkey", apiProperties.getAladin().getTtbKey())
+                        .queryParam("QueryType", "Bestseller")
+                        .queryParam("SearchTarget","Book")
+                        .queryParam("Version",20131101)
+                        .queryParam("Cover","Big")
+                        .queryParam("output","js")
+                        .build())
+                .retrieve()
+                .bodyToMono(BestSellerListResponseDto.class)
+                .subscribe(e -> popularBookSaveService.bestsellerSave("ALL", e));
+    }
 
     /**
      * 24시 마다 redis 에 인기 도서를 저장 합니다.
