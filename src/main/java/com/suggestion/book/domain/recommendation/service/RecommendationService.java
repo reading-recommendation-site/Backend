@@ -4,6 +4,7 @@ import com.suggestion.book.domain.recommendation.dto.BestSellerListResponseDto;
 import com.suggestion.book.domain.recommendation.dto.PopularBookConditionsRequestDto;
 import com.suggestion.book.domain.recommendation.dto.PopularBookListResponseDto;
 import com.suggestion.book.domain.recommendation.exception.KeyNotFoundException;
+import com.suggestion.book.domain.recommendation.repository.BestsellerRedisRepository;
 import com.suggestion.book.domain.recommendation.repository.PopularBookRedisRepository;
 import com.suggestion.book.global.config.properties.ApiProperties;
 import com.suggestion.book.global.utils.MultiValueMapConverterUtil;
@@ -20,6 +21,7 @@ public class RecommendationService {
     private final WebClient aladinWebClientApi;
     private final ApiProperties apiProperties;
     private final PopularBookRedisRepository popularBookRedisRepository;
+    private final BestsellerRedisRepository bestsellerRedisRepository;
 
     private static final String ALADIN_URI = "/ItemList.aspx";
     private static final String POPULAR_BOOK_URI = "/loanItemSrch";
@@ -38,6 +40,11 @@ public class RecommendationService {
                         .build())
                 .retrieve()
                 .bodyToMono(BestSellerListResponseDto.class);
+    }
+
+    public BestSellerListResponseDto getBestSeller(String division) {
+        return bestsellerRedisRepository.findById(division)
+                .orElseThrow(() -> new KeyNotFoundException(division+" 가 존재하지 않습니다.")).getBestSellerListResponseDto();
     }
 
     public Mono<BestSellerListResponseDto> getByGenre(int category) {
