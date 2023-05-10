@@ -5,7 +5,7 @@ spring:
     username: ENC(rlxZ3yPQaez8Kq6MlFSHnmiGeHdd7jjS/8IYPmd2oWc/bQ2IB8uh+A3ywkbSY9NN)
     password: ENC(nUfmxmuyBsiVBJu9xCMo8eNsz+nu2Mlhb8tdhKLp1R2t4F1H2VPjCHEr0PVRFQ9Q)
     hikari:
-      maximum-pool-size: 20
+      maximum-pool-size: 100
   jpa:
     generate-ddl: true
     hibernate:
