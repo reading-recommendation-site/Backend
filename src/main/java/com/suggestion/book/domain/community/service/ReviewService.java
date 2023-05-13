@@ -62,8 +62,8 @@ public class ReviewService {
             throw new InvalidISBNException("isbn 이 존재 하지 않습니다.");
         }
         return principalOpt
-                .map(p -> reviewRepository.findAll(pageable).map(review -> ReviewResponseDto.from(review, p.getUsername())))
-                .orElseGet(() -> reviewRepository.findAll(pageable).map(ReviewResponseDto::from));
+                .map(p -> reviewRepository.findAllByIsbn(pageable,isbn).map(review -> ReviewResponseDto.from(review, p.getUsername())))
+                .orElseGet(() -> reviewRepository.findAllByIsbn(pageable,isbn).map(ReviewResponseDto::from));
     }
 
     public Page<ReviewResponseDto> getReviewListByMember(Pageable pageable, String memberId) {
