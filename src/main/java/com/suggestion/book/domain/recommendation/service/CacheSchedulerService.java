@@ -27,25 +27,25 @@ public class CacheSchedulerService {
     private static final String POPULAR_BOOK_URI = "/loanItemSrch";
 
     /**
-     * 24시 마다 redis 에 베스트 셀러 를 저장 합니다.
+     * 24시 마다 redis 에 베스트 셀러 를 저장 합니다. -> 비용으로 인한 삭제
      */
-    @Scheduled(cron = "0 0 0 * * *")
-    public void saveBestSellers() {
-        aladinWebClientApi
-                .get()
-                .uri(uriBuilder -> uriBuilder
-                        .path(ALADIN_URI)
-                        .queryParam("ttbkey", apiProperties.getAladin().getTtbKey())
-                        .queryParam("QueryType", "Bestseller")
-                        .queryParam("SearchTarget","Book")
-                        .queryParam("Version",20131101)
-                        .queryParam("Cover","Big")
-                        .queryParam("output","js")
-                        .build())
-                .retrieve()
-                .bodyToMono(BestSellerListResponseDto.class)
-                .subscribe(e -> popularBookSaveService.bestsellerSave("ALL", e));
-    }
+//    @Scheduled(cron = "0 0 0 * * *")
+//    public void saveBestSellers() {
+//        aladinWebClientApi
+//                .get()
+//                .uri(uriBuilder -> uriBuilder
+//                        .path(ALADIN_URI)
+//                        .queryParam("ttbkey", apiProperties.getAladin().getTtbKey())
+//                        .queryParam("QueryType", "Bestseller")
+//                        .queryParam("SearchTarget","Book")
+//                        .queryParam("Version",20131101)
+//                        .queryParam("Cover","Big")
+//                        .queryParam("output","js")
+//                        .build())
+//                .retrieve()
+//                .bodyToMono(BestSellerListResponseDto.class)
+//                .subscribe(e -> popularBookSaveService.bestsellerSave("ALL", e));
+//    }
 
     /**
      * 24시 마다 redis 에 인기 도서를 저장 합니다.
