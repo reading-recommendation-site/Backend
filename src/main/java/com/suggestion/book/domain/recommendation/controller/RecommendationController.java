@@ -22,10 +22,10 @@ public class RecommendationController {
         return recommendationService.getBestSeller();
     }
 
-    @GetMapping(path = "/recommendation/all-bestseller")
-    public BestSellerListResponseDto getAllBestSellerList() {
-        return recommendationService.getBestSeller("ALL");
-    }
+//    @GetMapping(path = "/recommendation/all-bestseller")
+//    public BestSellerListResponseDto getAllBestSellerList() {
+//        return recommendationService.getBestSeller("ALL");
+//    }
 
     @GetMapping(path = "/recommendation/genre")
     public Mono<BestSellerListResponseDto> getByGenreBookList(@RequestParam int category) {
