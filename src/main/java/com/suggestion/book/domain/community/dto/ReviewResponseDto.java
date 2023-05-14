@@ -14,6 +14,7 @@ public class ReviewResponseDto {
     public String bookTitle;
     public String bookAuthor;
     public String bookImgUrl;
+    public String isbn;
     public int grade;
     public String contents;
     public int commentCount;
@@ -28,6 +29,7 @@ public class ReviewResponseDto {
                 .bookTitle(review.getBookTitle())
                 .bookAuthor(review.getBookAuthor())
                 .bookImgUrl(review.getBookImgUrl())
+                .isbn(review.getIsbn())
                 .grade(review.getGrade())
                 .contents(review.getContents())
                 .commentCount(review.getComments().size())
@@ -44,6 +46,7 @@ public class ReviewResponseDto {
                 .bookTitle(review.getBookTitle())
                 .bookAuthor(review.getBookAuthor())
                 .bookImgUrl(review.getBookImgUrl())
+                .isbn(review.getIsbn())
                 .grade(review.getGrade())
                 .contents(review.getContents())
                 .commentCount(review.getComments().size())
