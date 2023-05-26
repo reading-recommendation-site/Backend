@@ -127,19 +127,23 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         return false;
     }
 
+    /**
+     * 로그인시 서버에서 허용한 리디렉트 uri인지 확인하는 함수
+     * 프론트엔드 로컬 테스트를 위하여 true로 설정하였다.
+     */
     private boolean isAuthorizedRedirectUri(String uri) {
-        URI clientRedirectUri = URI.create(uri);
-
-        return appProperties.getOauth2().getAuthorizedRedirectUris()
-                .stream()
-                .anyMatch(authorizedRedirectUri -> {
-                    // Only validate host and port. Let the clients use different paths if they want to
-                    URI authorizedURI = URI.create(authorizedRedirectUri);
-                    if(authorizedURI.getHost().equalsIgnoreCase(clientRedirectUri.getHost())
-                            && authorizedURI.getPort() == clientRedirectUri.getPort()) {
-                        return true;
-                    }
-                    return false;
-                });
+        return true;
+//        URI clientRedirectUri = URI.create(uri);
+//        return appProperties.getOauth2().getAuthorizedRedirectUris()
+//                .stream()
+//                .anyMatch(authorizedRedirectUri -> {
+//                    // Only validate host and port. Let the clients use different paths if they want to
+//                    URI authorizedURI = URI.create(authorizedRedirectUri);
+//                    if(authorizedURI.getHost().equalsIgnoreCase(clientRedirectUri.getHost())
+//                            && authorizedURI.getPort() == clientRedirectUri.getPort()) {
+//                        return true;
+//                    }
+//                    return false;
+//                });
     }
 }
