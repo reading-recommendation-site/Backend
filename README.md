@@ -1,5 +1,5 @@
 # Look-Book-Backend
-
+![](.github/source/look-book-logo.png)
 <br>
 
 ## 핵심 기능 소개
