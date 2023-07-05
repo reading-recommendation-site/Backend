@@ -17,7 +17,7 @@ public class OpenApiBookSearchService implements BookSearchService{
 
     @Override
     public Mono<BookListResponseDto> searchByBookTitle(String title, int start) {
-        return naverBookOpenApi.searchByBookTitle(title, start);
+        return naverBookOpenApi.searchByBookTitle(title, start).map(BookListResponseDto::fromNaverBookListRequestDto);
     }
 
     @Override
