@@ -1,6 +1,6 @@
 package com.suggestion.book.global.api;
 
-import com.suggestion.book.domain.book.dto.BookListResponseDto;
+import com.suggestion.book.global.api.dto.NaverBookListRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -13,7 +13,7 @@ public class NaverBookOpenApi {
 
     public static final String BOOK_TITLE_URI = "/search/book_adv.json";
 
-    public Mono<BookListResponseDto> searchByBookTitle(String title, int start) {
+    public Mono<NaverBookListRequestDto> searchByBookTitle(String title, int start) {
         return naverWebClientApi
                 .get()
                 .uri(uriBuilder -> uriBuilder
@@ -22,6 +22,6 @@ public class NaverBookOpenApi {
                         .queryParam("start", start)
                         .build())
                 .retrieve()
-                .bodyToMono(BookListResponseDto.class);
+                .bodyToMono(NaverBookListRequestDto.class);
     }
 }
