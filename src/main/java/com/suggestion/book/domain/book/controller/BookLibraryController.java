@@ -10,7 +10,7 @@ import reactor.core.publisher.Mono;
 
 @RequiredArgsConstructor
 @RestController
-public class LibraryController {
+public class BookLibraryController {
     private final LibraryService libraryService;
 
     @GetMapping(path = "/search/book/{isbn}/library/region/{region}")
