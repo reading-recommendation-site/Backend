@@ -1,6 +1,7 @@
 package com.suggestion.book.global.api;
 
-import com.suggestion.book.domain.recommendation.dto.DetailBookResponseDto;
+import com.suggestion.book.global.api.dto.AladinBestSellerResponseDto;
+import com.suggestion.book.global.api.dto.AladinBookListResponseDto;
 import com.suggestion.book.global.config.properties.ApiProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -14,8 +15,9 @@ public class AladinOpenApi {
     private final ApiProperties apiProperties;
 
     public static final String BOOK_ISBN_URI = "/ItemLookUp.aspx";
+    private static final String BOOK_BESTSELLER_URI = "/ItemList.aspx";
 
-    public Mono<DetailBookResponseDto> searchByBookISBN(String isbn) {
+    public Mono<AladinBookListResponseDto> searchByBookISBN(String isbn) {
         return aladinWebClientApi
                 .get()
                 .uri(uriBuilder -> uriBuilder
@@ -29,6 +31,39 @@ public class AladinOpenApi {
                         .queryParam("output","js")
                         .build())
                 .retrieve()
-                .bodyToMono(DetailBookResponseDto.class);
+                .bodyToMono(AladinBookListResponseDto.class);
+    }
+
+    public Mono<AladinBestSellerResponseDto> getAllBestSeller() {
+        return aladinWebClientApi
+                .get()
+                .uri(uriBuilder -> uriBuilder
+                        .path(BOOK_BESTSELLER_URI)
+                        .queryParam("ttbkey", apiProperties.getAladin().getTtbKey())
+                        .queryParam("QueryType", "Bestseller")
+                        .queryParam("SearchTarget","Book")
+                        .queryParam("Version",20131101)
+                        .queryParam("Cover","Big")
+                        .queryParam("output","js")
+                        .build())
+                .retrieve()
+                .bodyToMono(AladinBestSellerResponseDto.class);
+    }
+
+    public Mono<AladinBestSellerResponseDto> getBestSellerByGenre(int category) {
+        return aladinWebClientApi
+                .get()
+                .uri(uriBuilder -> uriBuilder
+                        .path(BOOK_BESTSELLER_URI)
+                        .queryParam("ttbkey", apiProperties.getAladin().getTtbKey())
+                        .queryParam("QueryType", "Bestseller")
+                        .queryParam("SearchTarget","Book")
+                        .queryParam("Version",20131101)
+                        .queryParam("CategoryId",category)
+                        .queryParam("Cover","Big")
+                        .queryParam("output","js")
+                        .build())
+                .retrieve()
+                .bodyToMono(AladinBestSellerResponseDto.class);
     }
 }
