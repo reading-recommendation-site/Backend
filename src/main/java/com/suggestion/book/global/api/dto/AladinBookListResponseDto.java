@@ -1,4 +1,4 @@
-package com.suggestion.book.domain.recommendation.dto;
+package com.suggestion.book.global.api.dto;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -7,7 +7,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class DetailBookResponseDto {
+public class AladinBookListResponseDto {
 
     public List<DetailBook> item;
 
