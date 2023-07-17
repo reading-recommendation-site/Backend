@@ -1,7 +1,6 @@
 package com.suggestion.book.domain.recommendation.service;
 
 import com.suggestion.book.domain.model.PopularBookClassification;
-import com.suggestion.book.domain.recommendation.dto.BestSellerListResponseDto;
 import com.suggestion.book.domain.recommendation.dto.PopularBookConditionsRequestDto;
 import com.suggestion.book.domain.recommendation.dto.PopularBookListResponseDto;
 import com.suggestion.book.global.config.properties.ApiProperties;

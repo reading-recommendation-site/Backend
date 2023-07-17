@@ -2,7 +2,7 @@ package com.suggestion.book.domain.book.controller;
 
 import com.suggestion.book.domain.book.dto.BookListResponseDto;
 import com.suggestion.book.domain.book.service.BookSearchService;
-import com.suggestion.book.domain.recommendation.dto.DetailBookResponseDto;
+import com.suggestion.book.global.api.dto.AladinBookListResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,7 +21,7 @@ public class BookSearchController {
     }
 
     @GetMapping(path = "/search/book/{isbn}")
-    public Mono<DetailBookResponseDto> getBook(@PathVariable() String isbn) {
+    public Mono<AladinBookListResponseDto> getBook(@PathVariable() String isbn) {
         return bookSearchService.searchByBookISBN(isbn);
     }
 }
