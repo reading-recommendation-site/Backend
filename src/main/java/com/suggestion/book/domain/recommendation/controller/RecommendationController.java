@@ -1,6 +1,6 @@
 package com.suggestion.book.domain.recommendation.controller;
 
-import com.suggestion.book.domain.recommendation.dto.BestSellerListResponseDto;
+import com.suggestion.book.global.api.dto.AladinBestSellerResponseDto;
 import com.suggestion.book.domain.recommendation.dto.PopularBookConditionsRequestDto;
 import com.suggestion.book.domain.recommendation.dto.PopularBookListResponseDto;
 import com.suggestion.book.domain.recommendation.service.RecommendationService;
@@ -18,7 +18,7 @@ public class RecommendationController {
     private final RecommendationService recommendationService;
 
     @GetMapping(path = "/recommendation/bestseller")
-    public Mono<BestSellerListResponseDto> getBestSellerList() {
+    public Mono<AladinBestSellerResponseDto> getBestSellerList() {
         return recommendationService.getBestSeller();
     }
 
@@ -28,7 +28,7 @@ public class RecommendationController {
 //    }
 
     @GetMapping(path = "/recommendation/genre")
-    public Mono<BestSellerListResponseDto> getByGenreBookList(@RequestParam int category) {
+    public Mono<AladinBestSellerResponseDto> getByGenreBookList(@RequestParam int category) {
         return recommendationService.getByGenre(category);
     }
 

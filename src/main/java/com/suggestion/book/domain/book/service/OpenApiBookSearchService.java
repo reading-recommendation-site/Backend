@@ -1,7 +1,7 @@
 package com.suggestion.book.domain.book.service;
 
 import com.suggestion.book.domain.book.dto.BookListResponseDto;
-import com.suggestion.book.domain.recommendation.dto.DetailBookResponseDto;
+import com.suggestion.book.global.api.dto.AladinBookListResponseDto;
 import com.suggestion.book.global.api.AladinOpenApi;
 import com.suggestion.book.global.api.NaverBookOpenApi;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +21,7 @@ public class OpenApiBookSearchService implements BookSearchService{
     }
 
     @Override
-    public Mono<DetailBookResponseDto> searchByBookISBN(String isbn) {
+    public Mono<AladinBookListResponseDto> searchByBookISBN(String isbn) {
         return aladinOpenApi.searchByBookISBN(isbn);
     }
 }

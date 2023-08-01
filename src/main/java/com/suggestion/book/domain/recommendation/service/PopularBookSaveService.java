@@ -1,6 +1,5 @@
 package com.suggestion.book.domain.recommendation.service;
 
-import com.suggestion.book.domain.recommendation.dto.BestSellerListResponseDto;
 import com.suggestion.book.domain.recommendation.dto.PopularBookListResponseDto;
 import com.suggestion.book.domain.recommendation.entity.PopularBook;
 import com.suggestion.book.domain.recommendation.repository.PopularBookRedisRepository;
