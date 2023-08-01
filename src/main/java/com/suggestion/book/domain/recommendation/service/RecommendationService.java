@@ -21,7 +21,6 @@ public class RecommendationService {
     private final AladinOpenApi aladinOpenApi;
     private final ApiProperties apiProperties;
     private final PopularBookRedisRepository popularBookRedisRepository;
-    //private final BestsellerRedisRepository bestsellerRedisRepository;
 
     private static final String POPULAR_BOOK_URI = "/loanItemSrch";
 

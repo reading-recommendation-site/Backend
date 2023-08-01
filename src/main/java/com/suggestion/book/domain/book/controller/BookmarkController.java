@@ -21,8 +21,7 @@ public class BookmarkController {
     private final BookmarkService bookmarkService;
 
     @GetMapping(path = "/search/book/{isbn}/bookmark")
-    public BookmarkCountResponseDto getBookmark(@PathVariable String isbn,
-                                                @AuthenticationPrincipal User principal) {
+    public BookmarkCountResponseDto getBookmark(@PathVariable String isbn, @AuthenticationPrincipal User principal) {
         return bookmarkService.getBookmarkCountByReview(isbn, Optional.ofNullable(principal));
     }
 
